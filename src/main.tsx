@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { setupIonicReact } from '@ionic/react'
+import { IonReactRouter } from '@ionic/react-router'
 
 import '@ionic/react/css/core.css'
 import '@ionic/react/css/normalize.css'
@@ -19,6 +20,8 @@ setupIonicReact()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <IonReactRouter>
+      <App />
+    </IonReactRouter>
   </StrictMode>,
 )
