@@ -1,22 +1,14 @@
+import { useState } from 'react'
 import type { CSSProperties } from 'react'
 import { useHistory } from 'react-router-dom'
 import { IonContent, IonPage } from '@ionic/react'
 import { IconArrowRight } from '@tabler/icons-react'
+import { sessionStore } from '../../stores/session'
+import freshIngredients from '../../assets/onboarding/fresh-ingredients.webp'
+import guidedMealPlanning from '../../assets/onboarding/guided-meal-planning.webp'
+import healthyMealServe from '../../assets/onboarding/healthy-meal-serve.webp'
 
 type OnboardingTone = 'coral' | 'green' | 'amber'
-
-type OnboardingScreenProps = {
-  step: 1 | 2 | 3
-  title: string
-  description: string
-  illustration: string
-  tone: OnboardingTone
-  topActionLabel: string
-  topActionTo: string
-  bottomActionLabel: string
-  bottomActionTo: string
-  bottomActionStyle?: 'circle' | 'pill'
-}
 
 type ToneStyle = CSSProperties & Record<string, string>
 
@@ -44,24 +36,71 @@ const toneStyles: Record<OnboardingTone, ToneStyle> = {
   },
 }
 
-function OnboardingScreen({
-  step,
-  title,
-  description,
-  illustration,
-  tone,
-  topActionLabel,
-  topActionTo,
-  bottomActionLabel,
-  bottomActionTo,
-  bottomActionStyle = 'circle',
-}: OnboardingScreenProps) {
+const SLIDES = [
+  {
+    step: 1 as const,
+    tone: 'amber' as OnboardingTone,
+    title: 'Discover fresh meals',
+    description: 'Browse beautifully simple recipes with clear ingredients and effortless prep.',
+    illustration: freshIngredients,
+    topActionLabel: 'Skip',
+    topActionTo: '/login',
+    bottomActionLabel: 'Next',
+    bottomActionTo: '/onboarding',
+    bottomActionStyle: 'circle' as const,
+  },
+  {
+    step: 2 as const,
+    tone: 'green' as OnboardingTone,
+    title: 'Cook with confidence',
+    description: 'Follow step-by-step guidance, timing cues, and helpful checkpoints as you go.',
+    illustration: guidedMealPlanning,
+    topActionLabel: 'Skip',
+    topActionTo: '/login',
+    bottomActionLabel: 'Next',
+    bottomActionTo: '/onboarding',
+    bottomActionStyle: 'circle' as const,
+  },
+  {
+    step: 3 as const,
+    tone: 'coral' as OnboardingTone,
+    title: 'Build healthy momentum',
+    description: 'Save your favorites, stay consistent, and jump into your account when you are ready.',
+    illustration: healthyMealServe,
+    topActionLabel: 'Login',
+    topActionTo: '/login',
+    bottomActionLabel: 'Start',
+    bottomActionTo: '/register',
+    bottomActionStyle: 'pill' as const,
+  },
+]
+
+function OnboardingScreen() {
+  const [currentSlide, setCurrentSlide] = useState(0)
   const history = useHistory()
+  const slide = SLIDES[currentSlide]
+
+  const handleBottomAction = () => {
+    if (currentSlide < SLIDES.length - 1) {
+      setCurrentSlide((s) => s + 1)
+    } else {
+      sessionStore.markOnboardingSeen()
+      history.push(slide.bottomActionTo)
+    }
+  }
+
+  const handleTopAction = () => {
+    sessionStore.markOnboardingSeen()
+    history.push(slide.topActionTo)
+  }
 
   return (
     <IonPage>
       <IonContent fullscreen scrollY={false} className="onboarding-page">
-        <div className={`onboarding-page__shell onboarding-page__shell--${tone}`} style={toneStyles[tone]}>
+        <div
+          className={`onboarding-page__shell onboarding-page__shell--${slide.tone}`}
+          style={toneStyles[slide.tone]}
+        >
           <div className="onboarding-page__pattern" aria-hidden="true" />
           <div className="onboarding-page__glow onboarding-page__glow--left" aria-hidden="true" />
           <div className="onboarding-page__glow onboarding-page__glow--right" aria-hidden="true" />
@@ -71,28 +110,33 @@ function OnboardingScreen({
               <img src="/app-icon.svg" alt="Le Mise" className="onboarding-page__brand" />
               <button
                 type="button"
-                className={`onboarding-page__top-action onboarding-page__top-action--${tone}`}
-                onClick={() => history.push(topActionTo)}
+                className={`onboarding-page__top-action onboarding-page__top-action--${slide.tone}`}
+                onClick={handleTopAction}
               >
-                {topActionLabel}
+                {slide.topActionLabel}
               </button>
             </div>
 
             <div className="onboarding-page__art">
-              <img src={illustration} alt={title} className="onboarding-page__illustration" />
+              <img
+                key={slide.step}
+                src={slide.illustration}
+                alt={slide.title}
+                className="onboarding-page__illustration"
+              />
             </div>
 
-            <section className="onboarding-page__panel" aria-labelledby={`onboarding-title-${step}`}>
-              <h1 id={`onboarding-title-${step}`} className="onboarding-page__title">
-                {title}
+            <section className="onboarding-page__panel" aria-labelledby={`onboarding-title-${slide.step}`}>
+              <h1 id={`onboarding-title-${slide.step}`} className="onboarding-page__title">
+                {slide.title}
               </h1>
-              <p className="onboarding-page__description">{description}</p>
+              <p className="onboarding-page__description">{slide.description}</p>
 
-              <div className="onboarding-page__progress" aria-label={`Onboarding step ${step} of 3`}>
-                {[1, 2, 3].map((dot) => (
+              <div className="onboarding-page__progress" aria-label={`Onboarding step ${slide.step} of 3`}>
+                {SLIDES.map((_, i) => (
                   <span
-                    key={dot}
-                    className={`onboarding-page__dot${dot === step ? ' onboarding-page__dot--active' : ''}`}
+                    key={i}
+                    className={`onboarding-page__dot${i === currentSlide ? ' onboarding-page__dot--active' : ''}`}
                     aria-hidden="true"
                   />
                 ))}
@@ -100,15 +144,15 @@ function OnboardingScreen({
 
               <button
                 type="button"
-                className={`onboarding-page__cta onboarding-page__cta--${bottomActionStyle}`}
-                onClick={() => history.push(bottomActionTo)}
-                aria-label={bottomActionLabel}
+                className={`onboarding-page__cta onboarding-page__cta--${slide.bottomActionStyle}`}
+                onClick={handleBottomAction}
+                aria-label={slide.bottomActionLabel}
               >
-                {bottomActionStyle === 'pill' ? (
-                  <span>{bottomActionLabel}</span>
+                {slide.bottomActionStyle === 'pill' ? (
+                  <span>{slide.bottomActionLabel}</span>
                 ) : (
                   <>
-                    <span className="onboarding-page__cta-label">{bottomActionLabel}</span>
+                    <span className="onboarding-page__cta-label">{slide.bottomActionLabel}</span>
                     <IconArrowRight size={34} stroke={2.4} aria-hidden="true" />
                   </>
                 )}

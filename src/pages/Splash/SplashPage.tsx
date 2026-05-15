@@ -1,6 +1,23 @@
+import { useEffect } from 'react'
 import { IonContent, IonPage } from '@ionic/react'
+import { sessionStore } from '../../stores/session'
 
 function SplashPage() {
+  useEffect(() => {
+    // Small delay to display splash before redirecting
+    const timer = setTimeout(() => {
+      if (sessionStore.hasSeenOnboarding) {
+        // User already saw onboarding — go to login (main entry point for returning users)
+        window.location.replace('/login')
+      } else {
+        // First time — show onboarding
+        window.location.replace('/onboarding')
+      }
+    }, 800)
+    return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <IonPage>
       <IonContent fullscreen scrollY={false} className="[--background:var(--app-color-surface)]">

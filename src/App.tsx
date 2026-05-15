@@ -1,9 +1,7 @@
 import { IonApp, IonRouterOutlet } from '@ionic/react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import SplashPage from './pages/Splash/SplashPage'
-import OnboardingPage1 from './pages/Onboarding/OnboardingPage1'
-import OnboardingPage2 from './pages/Onboarding/OnboardingPage2'
-import OnboardingPage3 from './pages/Onboarding/OnboardingPage3'
+import OnboardingScreen from './pages/Onboarding/OnboardingScreen'
 import LoginPage from './pages/Auth/LoginPage'
 import RegisterPage from './pages/Auth/RegisterPage'
 import ResetPasswordPage from './pages/Auth/ResetPasswordPage'
@@ -18,14 +16,8 @@ function App() {
           <Route exact path="/">
             <SplashPage />
           </Route>
-          <Route exact path="/onboarding-1">
-            <OnboardingPage1 />
-          </Route>
-          <Route exact path="/onboarding-2">
-            <OnboardingPage2 />
-          </Route>
-          <Route exact path="/onboarding-3">
-            <OnboardingPage3 />
+          <Route exact path="/onboarding">
+            <OnboardingScreen />
           </Route>
           <Route exact path="/login">
             <LoginPage />
