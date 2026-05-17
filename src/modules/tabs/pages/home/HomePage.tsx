@@ -21,6 +21,7 @@ import {
   IconGlassFull,
 } from "@tabler/icons-react";
 import Brand from "@/shared/components/brand";
+import { homeRecipeCards } from "@/modules/recipes/mocks/recipes";
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -29,38 +30,7 @@ const GREETING = {
   phrase: "Hoy es un gran día para cocinar algo especial.",
 };
 
-const RECIPES = [
-  {
-    id: "1",
-    title: "Risotto de setas y parmesano",
-    description: "Cremoso y reconfortante, con quinoa y verduras salteadas",
-    difficulty: "Media",
-    time: "35 min",
-    image:
-      "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&q=80",
-    category: "Italianos",
-  },
-  {
-    id: "2",
-    title: "Salmón al horno con limon",
-    description: "Pescado tierno con hierbas frescas y verduras asadas",
-    difficulty: "Fácil",
-    time: "25 min",
-    image:
-      "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&q=80",
-    category: "Pescado",
-  },
-  {
-    id: "3",
-    title: "Tarta de verduras y queso",
-    description: "Masa crujiente con relleno de calabacín, pimiento y brie",
-    difficulty: "Media",
-    time: "50 min",
-    image:
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80",
-    category: "Vegetariano",
-  },
-];
+const RECIPES = homeRecipeCards;
 
 const CATEGORIES = [
   {
