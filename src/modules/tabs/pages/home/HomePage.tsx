@@ -4,11 +4,7 @@ import { useHistory } from "react-router-dom";
 import {
   IconChevronRight,
   IconClock,
-  IconToolsKitchen2,
   IconBowl,
-  IconSalad,
-  IconGrill,
-  IconCake,
   IconCalendarPlus,
   IconBell,
   IconSunrise,
@@ -21,7 +17,7 @@ import {
   IconGlassFull,
 } from "@tabler/icons-react";
 import Brand from "@/shared/components/brand";
-import { homeRecipeCards } from "@/modules/recipes/mocks/recipes";
+import { homeRecipeCards } from "@/shared/mocks/recipes";
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 

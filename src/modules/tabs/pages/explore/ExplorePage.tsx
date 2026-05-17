@@ -5,68 +5,14 @@ import {
   IonInfiniteScrollContent,
   IonPage,
 } from "@ionic/react";
-import {
-  IconBell,
-  IconClock,
-  IconFilter,
-  IconLeaf,
-  IconMoon,
-  IconSearch,
-  IconSoup,
-  IconSunrise,
-  IconWheatOff,
-  type Icon,
-} from "@tabler/icons-react";
-import RecipeCard from "@/modules/recipes/components/RecipeCard";
+import { IconBell } from "@tabler/icons-react";
 import Brand from "@/shared/components/brand";
-import { recipeMocks } from "@/modules/recipes/mocks/recipes";
+import { recipeMocks } from "@/shared/mocks/recipes";
+import RecipeList from "@/shared/components/recipes/RecipeList";
+import RecipeSearchInput from "@/shared/components/recipes/RecipeSearchInput";
+import RecipeCategorySection from "@/shared/components/recipes/RecipeCategorySection";
 
 const PAGE_SIZE = 6;
-
-const CATEGORY_STYLES: Record<
-  string,
-  {
-    Icon: Icon;
-    tileClassName: string;
-    iconClassName: string;
-  }
-> = {
-  all: {
-    Icon: IconFilter,
-    tileClassName: "bg-[#FFF3D6]",
-    iconClassName: "text-[#F2B21B]",
-  },
-  Desayunos: {
-    Icon: IconSunrise,
-    tileClassName: "bg-[#FFF3D6]",
-    iconClassName: "text-[#F2B21B]",
-  },
-  Almuerzos: {
-    Icon: IconSoup,
-    tileClassName: "bg-[#EAF8EC]",
-    iconClassName: "text-[#78C58B]",
-  },
-  Cenas: {
-    Icon: IconMoon,
-    tileClassName: "bg-[#FFE9E4]",
-    iconClassName: "text-[#FF7A63]",
-  },
-  Rápidas: {
-    Icon: IconClock,
-    tileClassName: "bg-[#FFE9E4]",
-    iconClassName: "text-[#FF7A63]",
-  },
-  Vegetariano: {
-    Icon: IconLeaf,
-    tileClassName: "bg-[#EAF8EC]",
-    iconClassName: "text-[#78C58B]",
-  },
-  "Sin gluten": {
-    Icon: IconWheatOff,
-    tileClassName: "bg-[#F2FBF3]",
-    iconClassName: "text-[#9FD7AE]",
-  },
-};
 
 function ExplorePage() {
   const [query, setQuery] = useState("");
@@ -115,9 +61,15 @@ function ExplorePage() {
     setVisibleCount(PAGE_SIZE);
   };
 
+  const handleClearFilters = () => {
+    setQuery("");
+    setSelectedCategory("all");
+    setVisibleCount(PAGE_SIZE);
+  };
+
   const handleInfiniteScroll = async (event: CustomEvent<void>) => {
     setVisibleCount((current) => current + PAGE_SIZE);
-    event.target.complete();
+    (event.target as HTMLIonInfiniteScrollElement).complete();
   };
 
   return (
@@ -141,67 +93,23 @@ function ExplorePage() {
               </button>
             </div>
 
-            <div className="mt-3 flex items-center gap-3">
-              <label className="flex min-h-12 flex-1 items-center gap-3 rounded-2xl border border-[#EADFCF] bg-white px-4 shadow-[0_8px_24px_rgba(164,130,74,0.08)]">
-                <IconSearch size={18} className="text-[var(--app-color-text-secondary)]" aria-hidden="true" />
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(event) => handleSearchChange(event.target.value)}
-                  placeholder="Buscar recetas"
-                  className="h-full w-full bg-transparent text-sm text-[var(--app-color-text-primary)] outline-none placeholder:text-[var(--app-color-text-secondary)]"
-                />
-              </label>
-
-              <button
-                type="button"
-                onClick={handleFilterClick}
-                aria-label="Cambiar filtro"
-                className="flex min-h-12 min-w-12 items-center justify-center rounded-2xl border border-[#EADFCF] bg-white text-[var(--app-color-primary)] shadow-[0_8px_24px_rgba(164,130,74,0.08)]"
-              >
-                <IconFilter size={18} aria-hidden="true" />
-              </button>
+            <div className="mt-3">
+              <RecipeSearchInput
+                value={query}
+                onChange={handleSearchChange}
+                onFilterClick={handleFilterClick}
+              />
             </div>
 
-            <div className="mt-4 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <div className="flex gap-2.5 pr-2">
-              {categories.map((category) => {
-                const isSelected = selectedCategory === category;
-                const categoryStyle = CATEGORY_STYLES[category] ?? CATEGORY_STYLES.all;
-                const CategoryIcon = categoryStyle.Icon;
-
-                return (
-                  <button
-                    key={category}
-                    type="button"
-                    onClick={() => {
-                      setSelectedCategory(category);
-                      setVisibleCount(PAGE_SIZE);
-                    }}
-                    className="flex shrink-0 flex-col items-center gap-2"
-                  >
-                    <div
-                      className={`flex h-14 w-14 items-center justify-center rounded-2xl border shadow-[0_6px_18px_rgba(164,130,74,0.08)] transition-all ${
-                        isSelected
-                          ? "border-[var(--app-color-primary)] ring-2 ring-[var(--app-color-primary)]/15"
-                          : "border-[#F0E4D2]"
-                      } ${categoryStyle.tileClassName}`}
-                    >
-                      <CategoryIcon
-                        size={20}
-                        stroke={1.9}
-                        className={categoryStyle.iconClassName}
-                        aria-hidden="true"
-                      />
-                    </div>
-
-                    <span className="max-w-14 text-center text-[10px] font-medium leading-tight text-[var(--app-color-text-secondary)]">
-                      {category === "all" ? "Todas" : category}
-                    </span>
-                  </button>
-                );
-              })}
-              </div>
+            <div className="mt-4">
+              <RecipeCategorySection
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onSelect={(category) => {
+                  setSelectedCategory(category);
+                  setVisibleCount(PAGE_SIZE);
+                }}
+              />
             </div>
           </header>
 
@@ -211,7 +119,6 @@ function ExplorePage() {
                 <span className="text-lg font-semibold leading-none tracking-[-0.03em] text-[var(--app-color-text-primary)]">
                   Explorar recetas
                 </span>
-              
               </div>
 
               <span className="text-sm text-[var(--app-color-text-secondary)]">
@@ -219,22 +126,11 @@ function ExplorePage() {
               </span>
             </div>
 
-            <div className="space-y-4">
-              {visibleRecipes.map((recipe) => (
-                <RecipeCard key={recipe.id} recipe={recipe} variant="highlight" />
-              ))}
-
-              {filteredRecipes.length === 0 ? (
-                <div className="rounded-[24px] border border-dashed border-[#EADFCF] bg-white px-5 py-8 text-center shadow-[0_8px_24px_rgba(164,130,74,0.05)]">
-                  <h2 className="text-lg font-semibold text-[var(--app-color-text-primary)]">
-                    No encontramos recetas
-                  </h2>
-                  <p className="mt-2 text-sm text-[var(--app-color-text-secondary)]">
-                    Probá con otro nombre o cambiá el filtro.
-                  </p>
-                </div>
-              ) : null}
-            </div>
+            <RecipeList
+              recipes={visibleRecipes}
+              variant="highlight"
+              onClearFilters={handleClearFilters}
+            />
           </section>
 
           <IonInfiniteScroll onIonInfinite={handleInfiniteScroll} disabled={!hasMoreRecipes}>

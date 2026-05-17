@@ -1,41 +1,71 @@
 import {
   IconClock,
   IconHeart,
-  IconPlus,
+  IconHeartFilled,
   IconSparkles,
 } from "@tabler/icons-react";
-import type { Recipe } from "@/modules/recipes/mocks/recipes";
+import type { Recipe } from "@/shared/mocks/recipes";
 
 interface RecipeCardHighlightProps {
   recipe: Recipe;
   difficultyLabel: string;
+  isFavorite?: boolean;
+  onToggleFavorite?: (recipeId: string) => void;
 }
 
 function RecipeCardHighlight({
   recipe,
   difficultyLabel,
+  isFavorite,
+  onToggleFavorite,
 }: RecipeCardHighlightProps) {
   const totalTime = (recipe.prepTime ?? 0) + (recipe.cookTime ?? 0);
 
+  const handleFavoriteClick = () => {
+    onToggleFavorite?.(recipe.id);
+  };
+
   return (
     <article className="w-80">
-      <div className="aspect-[4/2]  overflow-visible rounded-[24px] border border-gray-200 bg-white px-4 py-3 shadow-[0_10px_28px_rgba(164,130,74,0.12)]">
+      <div className="aspect-[4/2] overflow-visible rounded-[24px] border border-gray-200 bg-white px-4 py-3 shadow-[0_10px_28px_rgba(164,130,74,0.12)]">
         <div className="relative flex h-full gap-2">
           <div className="flex min-w-0 flex-1 flex-col pr-[80px]">
-            {/* <div className="flex items-center gap-2">
-              <button
-                type="button"
-                aria-label={`Guardar ${recipe.title} en favoritos`}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-[#D8D8D8] bg-white text-[#6B6B6B] shadow-sm"
+            <div className="mt-3 min-w-0 pr-3 ">
+              <div
+                className=" flex  flex-1 flex-col-2 items-center gap-2 text-sm font-medium text-[#6B6B6B]"
+                aria-hidden="true"
               >
-                <IconHeart size={16} stroke={2} aria-hidden="true" />
-              </button>
-            </div> */}
+                <div>
+                  {onToggleFavorite && (
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        aria-label={
+                          isFavorite
+                            ? `Quitar ${recipe.title} de favoritos`
+                            : `Guardar ${recipe.title} en favoritos`
+                        }
+                        onClick={handleFavoriteClick}
+                        className="flex h-8 w-8 items-center justify-center rounded-full border border-[#D8D8D8] bg-white text-[#6B6B6B] shadow-sm"
+                      >
+                        {isFavorite ? (
+                          <IconHeartFilled
+                            size={16}
+                            className="text-[#FF7A63]"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <IconHeart size={16} stroke={2} aria-hidden="true" />
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </div>
 
-            <div className="mt-3 min-w-0 pr-3">
-              <h2 className="text-lg font-semibold leading-5 text-[#181818]">
-                {recipe.title}
-              </h2>
+                <h2 className="text-lg font-semibold leading-5 text-[#181818]">
+                  {recipe.title}
+                </h2>
+              </div>
 
               <p className="mt-1 line-clamp-2 text-sm leading-4 text-[#5F5F5F]">
                 {recipe.promotionalDescription ?? recipe.description}
