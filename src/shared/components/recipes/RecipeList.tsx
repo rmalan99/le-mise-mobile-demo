@@ -9,6 +9,7 @@ interface RecipeListProps {
   onClearFilters?: () => void;
   isFavorite?: (recipeId: string) => boolean;
   onToggleFavorite?: (recipeId: string) => void;
+  onOpenRecipe?: (recipeId: string) => void;
 }
 
 function RecipeList({
@@ -18,6 +19,7 @@ function RecipeList({
   onClearFilters,
   isFavorite,
   onToggleFavorite,
+  onOpenRecipe,
 }: RecipeListProps) {
   if (recipes.length === 0) {
     return (
@@ -38,6 +40,7 @@ function RecipeList({
           variant={variant}
           isFavorite={isFavorite?.(recipe.id)}
           onToggleFavorite={onToggleFavorite}
+          onOpenRecipe={onOpenRecipe}
         />
       ))}
     </div>

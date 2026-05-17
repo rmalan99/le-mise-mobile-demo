@@ -158,19 +158,40 @@ function SectionHeader({
 }
 
 function RecipeCard({ recipe }: { recipe: (typeof RECIPES)[0] }) {
+  const history = useHistory();
   const { favoriteIds, toggleFavorite } = useFavoritesStore();
   const isFavorite = favoriteIds.has(recipe.id);
+
+  const handleOpenRecipe = () => {
+    history.push(`/tabs/recipes/${recipe.id}`);
+  };
+
+  const handleFavoriteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    toggleFavorite(recipe.id);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleOpenRecipe();
+    }
+  };
 
   return (
     <div
       className="shrink-0 rounded-[24px] border border-[#EADFCF] bg-white p-3 shadow-[0_8px_24px_rgba(164,130,74,0.08)]"
       style={{ width: "88vw", maxWidth: 360 }}
+      role="button"
+      tabIndex={0}
+      onClick={handleOpenRecipe}
+      onKeyDown={handleKeyDown}
     >
       <div className="relative overflow-hidden rounded-[18px]">
         <button
           type="button"
           aria-label={isFavorite ? `Quitar ${recipe.title} de favoritos` : `Guardar ${recipe.title} en favoritos`}
-          onClick={() => toggleFavorite(recipe.id)}
+          onClick={handleFavoriteClick}
           className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-[#FF7A63] shadow-sm"
         >
           {isFavorite ? (
@@ -200,13 +221,6 @@ function RecipeCard({ recipe }: { recipe: (typeof RECIPES)[0] }) {
             <IconClock size={15} stroke={1.8} aria-hidden="true" />
             {recipe.difficulty} · {recipe.time}
           </span>
-
-          <button
-            type="button"
-            className="ml-auto rounded-full bg-[var(--app-color-primary)] px-4 py-2 text-xs font-semibold text-white"
-          >
-            Ver receta
-          </button>
         </div>
       </div>
     </div>

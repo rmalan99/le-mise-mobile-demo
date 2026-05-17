@@ -4,6 +4,7 @@ import {
   IonPage,
 } from "@ionic/react";
 import { IconBell } from "@tabler/icons-react";
+import { useHistory } from "react-router-dom";
 import { useFavoritesStore } from "@/store/favorites";
 import Brand from "@/shared/components/brand";
 import { recipeMocks } from "@/shared/mocks/recipes";
@@ -13,6 +14,7 @@ import RecipeCategorySection from "@/shared/components/recipes/RecipeCategorySec
 import { PageEmptyState, PageLoadingState } from "@/shared/components/page-state";
 
 function FavoritesPage() {
+  const history = useHistory();
   const { favoriteIds, hasHydrated, toggleFavorite } = useFavoritesStore();
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -135,6 +137,7 @@ function FavoritesPage() {
                 isFavorite={isFavorite}
                 onToggleFavorite={toggleFavorite}
                 onClearFilters={handleClearFilters}
+                onOpenRecipe={(recipeId) => history.push(`/tabs/recipes/${recipeId}`)}
               />
             )}
           </section>

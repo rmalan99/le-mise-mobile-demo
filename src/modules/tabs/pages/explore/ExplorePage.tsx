@@ -6,6 +6,7 @@ import {
   IonPage,
 } from "@ionic/react";
 import { IconBell } from "@tabler/icons-react";
+import { useHistory } from "react-router-dom";
 import { useFavoritesStore } from "@/store/favorites";
 import Brand from "@/shared/components/brand";
 import { recipeMocks } from "@/shared/mocks/recipes";
@@ -16,6 +17,7 @@ import RecipeCategorySection from "@/shared/components/recipes/RecipeCategorySec
 const PAGE_SIZE = 6;
 
 function ExplorePage() {
+  const history = useHistory();
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -135,6 +137,7 @@ function ExplorePage() {
               onClearFilters={handleClearFilters}
               isFavorite={(recipeId) => favoriteIds.has(recipeId)}
               onToggleFavorite={toggleFavorite}
+              onOpenRecipe={(recipeId) => history.push(`/tabs/recipes/${recipeId}`)}
             />
           </section>
 

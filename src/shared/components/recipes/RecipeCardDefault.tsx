@@ -1,22 +1,42 @@
 import { IconClock, IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import type { Recipe } from "@/shared/mocks/recipes";
+import RecipeBadge from "./RecipeBadge";
 
 interface RecipeCardDefaultProps {
   recipe: Recipe;
   difficultyLabel: string;
   isFavorite?: boolean;
   onToggleFavorite?: (recipeId: string) => void;
+  onOpenRecipe?: (recipeId: string) => void;
 }
 
-function RecipeCardDefault({ recipe, difficultyLabel, isFavorite, onToggleFavorite }: RecipeCardDefaultProps) {
+function RecipeCardDefault({ recipe, difficultyLabel, isFavorite, onToggleFavorite, onOpenRecipe }: RecipeCardDefaultProps) {
   const totalTime = (recipe.prepTime ?? 0) + (recipe.cookTime ?? 0);
 
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     onToggleFavorite?.(recipe.id);
   };
 
+  const handleOpenRecipe = () => {
+    onOpenRecipe?.(recipe.id);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleOpenRecipe();
+    }
+  };
+
   return (
-    <article className="overflow-hidden rounded-[20px] border border-[#EADFCF] bg-white shadow-[0_8px_24px_rgba(164,130,74,0.08)]">
+    <article
+      className="overflow-hidden rounded-[20px] border border-[#EADFCF] bg-white shadow-[0_8px_24px_rgba(164,130,74,0.08)]"
+      role={onOpenRecipe ? "button" : undefined}
+      tabIndex={onOpenRecipe ? 0 : undefined}
+      onClick={onOpenRecipe ? handleOpenRecipe : undefined}
+      onKeyDown={onOpenRecipe ? handleKeyDown : undefined}
+    >
       <div className="relative">
         {recipe.mainImage ? (
           <img src={recipe.mainImage} alt={recipe.title} className="h-48 w-full object-cover" />
@@ -48,14 +68,14 @@ function RecipeCardDefault({ recipe, difficultyLabel, isFavorite, onToggleFavori
         </p>
 
         <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-[var(--app-color-text-secondary)]">
-          <span className="rounded-full bg-[#EAF8EC] px-2.5 py-1 font-medium text-[#5EAF74]">
-            {difficultyLabel}
-          </span>
+          <RecipeBadge label={difficultyLabel} variant="highlight" />
 
-          <span className="flex items-center gap-1 font-medium text-[var(--app-color-text-secondary)]">
-            <IconClock size={14} aria-hidden="true" />
-            {totalTime} min
-          </span>
+          <RecipeBadge
+            label={`${totalTime} min`}
+            icon={<IconClock size={14} aria-hidden="true" />}
+            variant="muted"
+            className="bg-transparent px-0 py-0 text-[var(--app-color-text-secondary)]"
+          />
         </div>
       </div>
     </article>

@@ -5,6 +5,7 @@ import HomePage from './pages/home/HomePage'
 import ExplorePage from './pages/explore/ExplorePage'
 import FavoritesPage from './pages/favorites/FavoritesPage'
 import ProfilePage from './pages/profile/ProfilePage'
+import RecipeDetailPage from '@/modules/recipes/pages/detail/RecipeDetailPage'
 
 function Tabs() {
   return (
@@ -12,6 +13,7 @@ function Tabs() {
       <IonRouterOutlet>
         <Route exact path="/tabs/home" component={HomePage} />
         <Route exact path="/tabs/explore" component={ExplorePage} />
+        <Route exact path="/tabs/recipes/:recipeId" component={RecipeDetailPage} />
         <Route exact path="/tabs/favorites" component={FavoritesPage} />
         <Route exact path="/tabs/profile" component={ProfilePage} />
         <Route exact path="/tabs">

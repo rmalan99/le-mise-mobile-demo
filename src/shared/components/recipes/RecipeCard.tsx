@@ -7,6 +7,7 @@ interface RecipeCardProps {
   variant?: "default" | "highlight";
   isFavorite?: boolean;
   onToggleFavorite?: (recipeId: string) => void;
+  onOpenRecipe?: (recipeId: string) => void;
 }
 
 function getDifficultyLabel(difficulty: Recipe["difficulty"]) {
@@ -15,7 +16,7 @@ function getDifficultyLabel(difficulty: Recipe["difficulty"]) {
   return "Difícil";
 }
 
-function RecipeCard({ recipe, variant = "default", isFavorite, onToggleFavorite }: RecipeCardProps) {
+function RecipeCard({ recipe, variant = "default", isFavorite, onToggleFavorite, onOpenRecipe }: RecipeCardProps) {
   const difficultyLabel = getDifficultyLabel(recipe.difficulty);
 
   if (variant === "highlight") {
@@ -25,6 +26,7 @@ function RecipeCard({ recipe, variant = "default", isFavorite, onToggleFavorite 
         difficultyLabel={difficultyLabel}
         isFavorite={isFavorite}
         onToggleFavorite={onToggleFavorite}
+        onOpenRecipe={onOpenRecipe}
       />
     );
   }
@@ -35,6 +37,7 @@ function RecipeCard({ recipe, variant = "default", isFavorite, onToggleFavorite 
       difficultyLabel={difficultyLabel}
       isFavorite={isFavorite}
       onToggleFavorite={onToggleFavorite}
+      onOpenRecipe={onOpenRecipe}
     />
   );
 }

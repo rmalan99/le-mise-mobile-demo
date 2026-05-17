@@ -11,6 +11,7 @@ interface RecipeCardHighlightProps {
   difficultyLabel: string;
   isFavorite?: boolean;
   onToggleFavorite?: (recipeId: string) => void;
+  onOpenRecipe?: (recipeId: string) => void;
 }
 
 function RecipeCardHighlight({
@@ -18,23 +19,39 @@ function RecipeCardHighlight({
   difficultyLabel,
   isFavorite,
   onToggleFavorite,
+  onOpenRecipe,
 }: RecipeCardHighlightProps) {
   const totalTime = (recipe.prepTime ?? 0) + (recipe.cookTime ?? 0);
 
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     onToggleFavorite?.(recipe.id);
   };
 
+  const handleOpenRecipe = () => {
+    onOpenRecipe?.(recipe.id);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleOpenRecipe();
+    }
+  };
+
   return (
-    <article className="w-80">
+    <article
+      className="w-80"
+      role={onOpenRecipe ? "button" : undefined}
+      tabIndex={onOpenRecipe ? 0 : undefined}
+      onClick={onOpenRecipe ? handleOpenRecipe : undefined}
+      onKeyDown={onOpenRecipe ? handleKeyDown : undefined}
+    >
       <div className="aspect-[4/2] overflow-visible rounded-[24px] border border-gray-200 bg-white px-4 py-3 shadow-[0_10px_28px_rgba(164,130,74,0.12)]">
         <div className="relative flex h-full gap-2">
           <div className="flex min-w-0 flex-1 flex-col pr-[80px]">
             <div className="mt-3 min-w-0 pr-3 ">
-              <div
-                className=" flex  flex-1 flex-col-2 items-center gap-2 text-sm font-medium text-[#6B6B6B]"
-                aria-hidden="true"
-              >
+              <div className=" flex  flex-1 flex-col-2 items-center gap-2 text-sm font-medium text-[#6B6B6B]">
                 <div>
                   {onToggleFavorite && (
                     <div className="flex items-center gap-2">
@@ -72,7 +89,7 @@ function RecipeCardHighlight({
               </p>
             </div>
 
-            <div className="flex gap-2 justify-content-center pt-3">
+            <div className="flex flex-wrap items-center gap-2 pt-3">
               <div className="flex items-center gap-1 text-sm font-semibold leading-none text-[#181818]">
                 <IconClock size={14} aria-hidden="true" />
                 {totalTime} min
