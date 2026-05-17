@@ -7,6 +7,8 @@ import {
   IconBowl,
   IconCalendarPlus,
   IconBell,
+  IconHeart,
+  IconHeartFilled,
   IconSunrise,
   IconSoup,
   IconMoon,
@@ -16,6 +18,7 @@ import {
   IconWheatOff,
   IconGlassFull,
 } from "@tabler/icons-react";
+import { useFavoritesStore } from "@/store/favorites";
 import Brand from "@/shared/components/brand";
 import { homeRecipeCards } from "@/shared/mocks/recipes";
 
@@ -155,12 +158,28 @@ function SectionHeader({
 }
 
 function RecipeCard({ recipe }: { recipe: (typeof RECIPES)[0] }) {
+  const { favoriteIds, toggleFavorite } = useFavoritesStore();
+  const isFavorite = favoriteIds.has(recipe.id);
+
   return (
     <div
       className="shrink-0 rounded-[24px] border border-[#EADFCF] bg-white p-3 shadow-[0_8px_24px_rgba(164,130,74,0.08)]"
       style={{ width: "88vw", maxWidth: 360 }}
     >
       <div className="relative overflow-hidden rounded-[18px]">
+        <button
+          type="button"
+          aria-label={isFavorite ? `Quitar ${recipe.title} de favoritos` : `Guardar ${recipe.title} en favoritos`}
+          onClick={() => toggleFavorite(recipe.id)}
+          className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-[#FF7A63] shadow-sm"
+        >
+          {isFavorite ? (
+            <IconHeartFilled size={18} aria-hidden="true" />
+          ) : (
+            <IconHeart size={18} stroke={2} aria-hidden="true" />
+          )}
+        </button>
+
         <img
           src={recipe.image}
           alt={recipe.title}
