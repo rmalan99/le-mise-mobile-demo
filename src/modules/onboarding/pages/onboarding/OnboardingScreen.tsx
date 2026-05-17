@@ -5,7 +5,7 @@ import { OnboardingHeader } from './components/OnboardingHeader'
 import { OnboardingIllustration } from './components/OnboardingIllustration'
 import { OnboardingFooter } from './components/OnboardingFooter'
 import { SLIDES } from './OnboardingSlideData'
-import { sessionStore } from '../../stores/session'
+import { sessionStore } from '@store/session'
 
 function OnboardingScreen() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -56,22 +56,27 @@ function OnboardingScreen() {
         <div className="relative flex min-h-full items-end justify-center overflow-hidden bg-[var(--app-color-surface)]">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,color-mix(in_srgb,white_90%,var(--app-color-surface)_10%),color-mix(in_srgb,var(--app-color-surface)_96%,white_4%)_45%,var(--app-color-surface)_100%)]" />
 
-          <div className="relative flex min-h-screen w-full max-w-[420px] flex-col overflow-hidden border border-white/80 bg-white shadow-[0_18px_60px_color-mix(in_srgb,var(--app-color-text-secondary)_14%,transparent)]">
+          <div className="relative flex h-screen w-full max-w-[420px] flex-col overflow-hidden border border-white/80 bg-white shadow-[0_18px_60px_color-mix(in_srgb,var(--app-color-text-secondary)_14%,transparent)]">
             <OnboardingHeader
               topActionLabel={slide.topActionLabel}
               onTopAction={handleTopAction}
             />
 
-            <div className="relative z-10 flex flex-1 items-center justify-center px-5 pt-3">
-              <OnboardingIllustration
-                step={slide.step}
-                title={slide.title}
-                illustration={slide.illustration}
-              />
+            <div className="relative z-10 flex h-[60%] items-center justify-center px-5 pt-3">
+              <div className="relative h-full w-full">
+                <OnboardingIllustration
+                  title={slide.title}
+                  illustration={slide.illustration}
+                />
+              </div>
             </div>
 
             <OnboardingFooter
               slideIndex={currentSlide}
+              title={slide.title}
+              description={slide.description}
+              bottomActionLabel={slide.bottomActionLabel}
+              bottomActionStyle={slide.bottomActionStyle}
               onBottomAction={handleBottomAction}
             />
           </div>

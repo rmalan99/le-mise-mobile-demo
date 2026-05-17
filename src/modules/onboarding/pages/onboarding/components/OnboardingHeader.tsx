@@ -1,3 +1,4 @@
+import { Brand } from '@shared/components/brand'
 import { OnboardingTopAction } from './OnboardingTopAction'
 
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
 export function OnboardingHeader({ topActionLabel, onTopAction }: Props) {
   return (
     <header className="relative z-10 flex items-center justify-between px-6 pt-7">
-      <img src="/app-icon.svg" alt="Le Mise" className="h-15 w-15 object-contain" />
+      <Brand size="md" />
       <OnboardingTopAction label={topActionLabel} onClick={onTopAction} />
     </header>
   )

@@ -1,6 +1,6 @@
-import freshIngredients from '../../assets/onboarding/fresh-ingredients.webp'
-import guidedMealPlanning from '../../assets/onboarding/guided-meal-planning.webp'
-import healthyMealServe from '../../assets/onboarding/healthy-meal-serve.webp'
+import freshIngredients from '@assets/onboarding/fresh-ingredients.webp'
+import guidedMealPlanning from '@assets/onboarding/guided-meal-planning.webp'
+import healthyMealServe from '@assets/onboarding/healthy-meal-serve.webp'
 
 export type Slide = {
   step: 1 | 2 | 3
