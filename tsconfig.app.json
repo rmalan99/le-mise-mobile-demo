@@ -4,8 +4,26 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@assets/*": ["src/assets/*"],
+      "@modules/*": ["src/modules/*"],
+      "@shared/*": ["src/shared/*"],
+      "@shared-components/*": ["src/shared/components/*"],
+      "@shared-forms/*": ["src/shared/components/forms/*"],
+      "@shared-fields/*": ["src/shared/components/forms/fields/*"],
+      "@auth/*": ["src/modules/auth/*"],
+      "@auth-components/*": ["src/modules/auth/components/*"],
+      "@auth-pages/*": ["src/modules/auth/pages/*"],
+      "@onboarding/*": ["src/modules/onboarding/*"],
+      "@splash/*": ["src/modules/splash/*"],
+      "@tabs/*": ["src/modules/tabs/*"],
+      "@store/*": ["src/store/*"]
+    },
     "types": ["vite/client"],
     "skipLibCheck": true,
+    "ignoreDeprecations": "6.0",
 
     /* Bundler mode */
     "moduleResolution": "bundler",
