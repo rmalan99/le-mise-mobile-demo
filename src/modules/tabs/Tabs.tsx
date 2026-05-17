@@ -1,10 +1,10 @@
 import { IonRouterOutlet, IonTabs } from '@ionic/react'
 import { Redirect, Route } from 'react-router-dom'
-import TabNavigationBar from '../../components/TabNavigationBar'
-import HomePage from './HomePage'
-import ExplorePage from './ExplorePage'
-import FavoritesPage from './FavoritesPage'
-import ProfilePage from './ProfilePage'
+import TabNavigationBar from './components/TabNavigationBar'
+import HomePage from './pages/home/HomePage'
+import ExplorePage from './pages/explore/ExplorePage'
+import FavoritesPage from './pages/favorites/FavoritesPage'
+import ProfilePage from './pages/profile/ProfilePage'
 
 function Tabs() {
   return (

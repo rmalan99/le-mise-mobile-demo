@@ -1,16 +1,18 @@
 import { IonApp, IonRouterOutlet } from '@ionic/react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import SplashPage from './pages/Splash/SplashPage'
-import OnboardingScreen from './pages/Onboarding/OnboardingScreen'
-import LoginPage from './pages/Auth/LoginPage'
-import RegisterPage from './pages/Auth/RegisterPage'
-import ResetPasswordPage from './pages/Auth/ResetPasswordPage'
-import ForgotPasswordPage from './pages/Auth/ForgotPasswordPage'
-import Tabs from './pages/Tabs/Tabs'
+import { AlertMise } from '@shared-components/alert'
+import SplashPage from '@splash/pages/splash/SplashPage'
+import OnboardingScreen from '@onboarding/pages/onboarding/OnboardingScreen'
+import LoginPage from '@auth-pages/login/LoginPage'
+import RegisterPage from '@auth-pages/register/RegisterPage'
+import ResetPasswordPage from '@auth-pages/reset-password/ResetPasswordPage'
+import ForgotPasswordPage from '@auth-pages/forgot-password/ForgotPasswordPage'
+import Tabs from '@tabs/Tabs'
 
 function App() {
   return (
     <IonApp>
+      <AlertMise />
       <IonRouterOutlet>
         <Switch>
           <Route exact path="/">
