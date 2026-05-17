@@ -6,6 +6,7 @@ import {
   IonPage,
 } from "@ionic/react";
 import { IconBell } from "@tabler/icons-react";
+import { useFavoritesStore } from "@/store/favorites";
 import Brand from "@/shared/components/brand";
 import { recipeMocks } from "@/shared/mocks/recipes";
 import RecipeList from "@/shared/components/recipes/RecipeList";
@@ -18,6 +19,8 @@ function ExplorePage() {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  const { favoriteIds, toggleFavorite } = useFavoritesStore();
 
   const categories = useMemo(() => {
     const uniqueCategories = new Set<string>();
@@ -130,6 +133,8 @@ function ExplorePage() {
               recipes={visibleRecipes}
               variant="highlight"
               onClearFilters={handleClearFilters}
+              isFavorite={(recipeId) => favoriteIds.has(recipeId)}
+              onToggleFavorite={toggleFavorite}
             />
           </section>
 
