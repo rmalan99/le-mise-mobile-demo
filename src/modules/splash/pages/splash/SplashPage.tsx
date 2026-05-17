@@ -1,19 +1,34 @@
 import { useEffect } from 'react'
 import { IonContent, IonPage } from '@ionic/react'
 import { APP_BRAND_NAME } from '@shared/config/branding'
-import { sessionStore } from '@store/session'
+import { useSessionStore } from '@store/session'
 
 function SplashPage() {
+  const hasHydrated = useSessionStore((state) => state.hasHydrated)
+  const onboard = useSessionStore((state) => state.onboard)
+  const userData = useSessionStore((state) => state.userData)
+
   useEffect(() => {
+    if (!hasHydrated) {
+      return
+    }
+
     const timer = setTimeout(() => {
-      if (sessionStore.hasSeenOnboarding) {
-        window.location.replace('/login')
-      } else {
+      if (!onboard) {
         window.location.replace('/onboarding')
+        return
       }
+
+      if (userData === null) {
+        window.location.replace('/login')
+        return
+      }
+
+      window.location.replace('/tabs')
     }, 2000)
+
     return () => clearTimeout(timer)
-  }, [])
+  }, [hasHydrated, onboard, userData])
 
   return (
     <IonPage>

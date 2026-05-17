@@ -1,36 +1,37 @@
-import { type FormEvent } from "react";
-import { useForm, FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useHistory } from "react-router-dom";
+import { type FormEvent } from 'react'
+import { useForm, FormProvider } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useHistory } from 'react-router-dom'
 import {
   registerSchema,
   type RegisterFormValues,
-} from "./schemas/registerSchema";
-import { AuthShell } from '@auth-components/AuthShell';
+} from './schemas/registerSchema'
+import { AuthShell } from '@auth-components/AuthShell'
 import {
   RhfTextField,
   RhfPasswordField,
-} from "@shared/components/forms";
+} from '@shared/components/forms'
+import { useSessionStore } from '@store/session'
 
-const TAGLINE = "Tu próxima comida favorita empieza acá.";
+const TAGLINE = 'Tu próxima comida favorita empieza acá.'
 
 function RegisterPage() {
-  const history = useHistory();
+  const history = useHistory()
+  const registerUser = useSessionStore((state) => state.registerUser)
   const methods = useForm<RegisterFormValues>({
-    mode: "onBlur",
+    mode: 'onBlur',
     resolver: zodResolver(registerSchema),
-  });
+  })
 
-  const submitRegistration = () => {
-    history.push("/tabs");
-  };
+  const submitRegistration = (values: RegisterFormValues) => {
+    registerUser(values)
+    history.push('/tabs')
+  }
 
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    methods.handleSubmit(() => {
-      submitRegistration();
-    })(e);
-  };
+    e.preventDefault()
+    methods.handleSubmit(submitRegistration)(e)
+  }
 
   return (
     <FormProvider {...methods}>
@@ -38,7 +39,7 @@ function RegisterPage() {
         title="Crear cuenta"
         tagline={TAGLINE}
         primaryCtaLabel="Registrarme"
-        onPrimaryCta={() => handleSubmit}
+        onPrimaryCta={methods.handleSubmit(submitRegistration)}
         formContent={
           <form onSubmit={handleSubmit} noValidate>
             <div className="flex flex-col gap-4">
@@ -74,10 +75,10 @@ function RegisterPage() {
           </form>
         }
         switchModeText="¿Ya tenés cuenta? Ingresá"
-        onSwitchMode={() => history.push("/login")}
+        onSwitchMode={() => history.push('/login')}
       />
     </FormProvider>
-  );
+  )
 }
 
-export default RegisterPage;
+export default RegisterPage

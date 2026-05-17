@@ -1,5 +1,3 @@
-import type { ButtonHTMLAttributes } from 'react'
-
 type Props = {
   label: 'Skip' | 'Login'
   onClick: () => void

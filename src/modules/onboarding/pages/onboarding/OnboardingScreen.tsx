@@ -5,12 +5,13 @@ import { OnboardingHeader } from './components/OnboardingHeader'
 import { OnboardingIllustration } from './components/OnboardingIllustration'
 import { OnboardingFooter } from './components/OnboardingFooter'
 import { SLIDES } from './OnboardingSlideData'
-import { sessionStore } from '@store/session'
+import { useSessionStore } from '@store/session'
 
 function OnboardingScreen() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const history = useHistory()
   const slide = SLIDES[currentSlide]
+  const markOnboardingComplete = useSessionStore((state) => state.markOnboardingComplete)
 
   useEffect(() => {
     const preloadedImages = SLIDES.map(({ illustration }) => {
@@ -35,12 +36,12 @@ function OnboardingScreen() {
       moveToSlide(currentSlide + 1)
       return
     }
-    sessionStore.markOnboardingSeen()
+    markOnboardingComplete()
     history.push(slide.bottomActionTo)
   }
 
   const handleTopAction = () => {
-    sessionStore.markOnboardingSeen()
+    markOnboardingComplete()
     history.push(slide.topActionTo)
   }
 

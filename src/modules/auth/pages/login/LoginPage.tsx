@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { loginSchema, type LoginFormValues } from './schemas/loginSchema'
 import { AuthShell } from '@auth-components/AuthShell'
 import { RhfTextField, RhfPasswordField } from '@shared/components/forms'
+import { useSessionStore } from '@store/session'
 
 const TAGLINE = 'Recetas que enamoran, cocina que divierte.'
 
@@ -12,20 +13,27 @@ const TAGLINE = 'Recetas que enamoran, cocina que divierte.'
 
 function LoginPage() {
   const history = useHistory()
+  const validateLogin = useSessionStore((state) => state.validateLogin)
   const methods = useForm<LoginFormValues>({
     mode: 'onBlur',
     resolver: zodResolver(loginSchema),
   })
 
-  const submitLogin = () => {
+  const submitLogin = ({ email, password }: LoginFormValues) => {
+    if (!validateLogin(email, password)) {
+      methods.setError('password', {
+        type: 'validate',
+        message: 'Correo electrónico o contraseña incorrectos',
+      })
+      return
+    }
+
     history.push('/tabs')
   }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    methods.handleSubmit(() => {
-      submitLogin()
-    })(e)
+    methods.handleSubmit(submitLogin)(e)
   }
 
   const handleForgotPassword = () => {
@@ -51,11 +59,21 @@ function LoginPage() {
                 type="email"
                 autoComplete="email"
                 inputMode="email"
+                onChange={() => {
+                  if (methods.formState.errors.password?.type === 'validate') {
+                    methods.clearErrors('password')
+                  }
+                }}
               />
               <RhfPasswordField
                 name="password"
                 label="Contraseña"
                 placeholder="Tu contraseña"
+                onChange={() => {
+                  if (methods.formState.errors.password?.type === 'validate') {
+                    methods.clearErrors('password')
+                  }
+                }}
               />
             </div>
           </form>
