@@ -20,6 +20,7 @@ export interface RecipeStep {
   ingredientIds: string[];
   utensilIds: string[];
   timerSeconds?: number;
+  timerCompletionMessage?: string;
   note?: string;
 }
 
@@ -93,7 +94,8 @@ export const recipeMocks: Recipe[] = [
         detail: "Calienta 1 cucharón de aceite en el caldero a fuego medio.",
         ingredientIds: ["ingredient-oil"],
         utensilIds: ["utensil-pot"],
-        timerSeconds: 60
+        timerSeconds: 60,
+        timerCompletionMessage: "El aceite debería estar caliente. Verificá que no esté humeando antes de continuar."
       },
       {
         id: "step-4",
@@ -110,7 +112,8 @@ export const recipeMocks: Recipe[] = [
         detail: "Añade el arroz al caldero y remueve para mezclarlo con el aceite.",
         ingredientIds: ["ingredient-rice"],
         utensilIds: ["utensil-pot", "utensil-spoon"],
-        timerSeconds: 60
+        timerSeconds: 60,
+        timerCompletionMessage: "El arroz debería estar brillando con el aceite. Ya podés agregar el agua."
       },
       {
         id: "step-6",
@@ -128,6 +131,7 @@ export const recipeMocks: Recipe[] = [
         ingredientIds: [],
         utensilIds: ["utensil-pot", "utensil-spoon"],
         timerSeconds: 300,
+        timerCompletionMessage: "El arroz ya debería haber absorvido casi toda el agua. Verificá que no se haya secado demás.",
         note: "El tiempo puede variar según la intensidad del fuego."
       },
       {
@@ -145,7 +149,8 @@ export const recipeMocks: Recipe[] = [
         detail: "Cocina el arroz tapado hasta que el grano esté blando.",
         ingredientIds: [],
         utensilIds: ["utensil-pot", "utensil-lid"],
-        timerSeconds: 900
+        timerSeconds: 900,
+        timerCompletionMessage: "El arroz ya debería estar listo, verificá que esté correctamente cocido y apagá el fuego antes de reservarlo."
       },
       {
         id: "step-10",
@@ -155,6 +160,7 @@ export const recipeMocks: Recipe[] = [
         ingredientIds: ["ingredient-eggs"],
         utensilIds: ["utensil-bowl"],
         timerSeconds: 60,
+        timerCompletionMessage: "Los huevos ya deberían estar bien batidos. Podés proseguir con el siguiente paso.",
         note: "Este paso puede hacerse mientras el arroz termina de cocinarse."
       },
       {
@@ -387,7 +393,8 @@ export const recipeMocks: Recipe[] = [
         detail: "Calienta la olla a fuego fuerte hasta que el caldo hierva.",
         ingredientIds: [],
         utensilIds: ["utensil-pot-lentils"],
-        timerSeconds: 600
+        timerSeconds: 600,
+        timerCompletionMessage: "El caldo debería estar hirviendo. Retirá la espuma que pueda haber quedado en la superficie."
       },
       {
         id: "step-lentils-22",
@@ -405,6 +412,7 @@ export const recipeMocks: Recipe[] = [
         ingredientIds: [],
         utensilIds: ["utensil-pot-lentils", "utensil-lid-lentils"],
         timerSeconds: 1800,
+        timerCompletionMessage: "Las lentejas ya deberían estar casi tiernas. Si estás preparando el sofrito en paralelo, verificá que no se te haya quemado nada.",
         note: "Mientras esta cocción avanza, puedes preparar el sofrito en paralelo. Si tu variedad de lenteja requiere remojo o más tiempo, sigue las indicaciones del paquete."
       },
       {

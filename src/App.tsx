@@ -8,6 +8,7 @@ import RegisterPage from '@auth-pages/register/RegisterPage'
 import ResetPasswordPage from '@auth-pages/reset-password/ResetPasswordPage'
 import ForgotPasswordPage from '@auth-pages/forgot-password/ForgotPasswordPage'
 import Tabs from '@tabs/Tabs'
+import CookingModePage from '@/modules/recipes/pages/cooking/CookingModePage'
 
 function App() {
   return (
@@ -35,6 +36,9 @@ function App() {
           </Route>
           <Route path="/tabs">
             <Tabs />
+          </Route>
+          <Route exact path="/cooking/:recipeId">
+            <CookingModePage />
           </Route>
           <Redirect to="/" />
         </Switch>
