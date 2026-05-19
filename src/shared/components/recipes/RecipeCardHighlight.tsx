@@ -2,7 +2,7 @@ import {
   IconClock,
   IconHeart,
   IconHeartFilled,
-  IconSparkles,
+  IconLeaf,
 } from "@tabler/icons-react";
 import type { Recipe } from "@/shared/mocks/recipes";
 
@@ -41,77 +41,77 @@ function RecipeCardHighlight({
 
   return (
     <article
-      className="w-80"
+      className="w-full"
       role={onOpenRecipe ? "button" : undefined}
       tabIndex={onOpenRecipe ? 0 : undefined}
       onClick={onOpenRecipe ? handleOpenRecipe : undefined}
       onKeyDown={onOpenRecipe ? handleKeyDown : undefined}
     >
-      <div className="aspect-[4/2] overflow-visible rounded-[24px] border border-gray-200 bg-white px-4 py-3 shadow-[0_10px_28px_rgba(164,130,74,0.12)]">
-        <div className="relative flex h-full gap-2">
-          <div className="flex min-w-0 flex-1 flex-col pr-[80px]">
-            <div className="mt-3 min-w-0 pr-3 ">
-              <div className=" flex  flex-1 flex-col-2 items-center gap-2 text-sm font-medium text-[#6B6B6B]">
-                <div>
-                  {onToggleFavorite && (
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        aria-label={
-                          isFavorite
-                            ? `Quitar ${recipe.title} de favoritos`
-                            : `Guardar ${recipe.title} en favoritos`
-                        }
-                        onClick={handleFavoriteClick}
-                        className="flex h-8 w-8 items-center justify-center rounded-full border border-[#D8D8D8] bg-white text-[#6B6B6B] shadow-sm"
-                      >
-                        {isFavorite ? (
-                          <IconHeartFilled
-                            size={16}
-                            className="text-[#FF7A63]"
-                            aria-hidden="true"
-                          />
-                        ) : (
-                          <IconHeart size={16} stroke={2} aria-hidden="true" />
-                        )}
-                      </button>
-                    </div>
+      <div className="overflow-hidden rounded-[20px] border border-white/80 bg-white/96 px-3 py-3 shadow-[0_16px_34px_rgba(164,130,74,0.10)] backdrop-blur-sm">
+        <div className="relative grid grid-cols-[1fr_110px]  gap-2">
+          <div className="flex min-w-0 flex-1 flex-col s">
+            <div className="flex justify-start items-center  gap-2">
+              {onToggleFavorite && (
+                <button
+                  type="button"
+                  aria-label={
+                    isFavorite
+                      ? `Quitar ${recipe.title} de favoritos`
+                      : `Guardar ${recipe.title} en favoritos`
+                  }
+                  onClick={handleFavoriteClick}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[#EEF0E7] bg-white text-[#6A8E2A] shadow-[0_8px_18px_rgba(164,130,74,0.08)]"
+                >
+                  {isFavorite ? (
+                    <IconHeartFilled
+                      size={18}
+                      className="text-[#6A8E2A]"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <IconHeart size={18} stroke={1.9} aria-hidden="true" />
                   )}
-                </div>
+                </button>
+              )}
+              <h2 className="text-[1.05rem] font-bold leading-[1.15] tracking-[-0.04em] text-[#202331]">
+                {recipe.title}
+              </h2>
+            </div>
 
-                <h2 className="text-lg font-semibold leading-5 text-[#181818]">
-                  {recipe.title}
-                </h2>
-              </div>
-
-              <p className="mt-1 line-clamp-2 text-sm leading-4 text-[#5F5F5F]">
+            <div className="mt-4 min-w-0 max-w-[210px]">
+              <p className="mt-3 line-clamp-3 text-[0.96rem] leading-7 text-[#5D606A]">
                 {recipe.promotionalDescription ?? recipe.description}
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 pt-3">
-              <div className="flex items-center gap-1 text-sm font-semibold leading-none text-[#181818]">
-                <IconClock size={14} aria-hidden="true" />
-                {totalTime} min
+            <div className="mt-auto flex flex-wrap items-center gap-3 pt-5 text-sm text-[#202331]">
+              <div className="inline-flex items-center gap-2">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EEF7E8] text-[#6A8E2A]">
+                  <IconClock size={15} aria-hidden="true" />
+                </span>
+                <span className="font-medium">{totalTime} min</span>
               </div>
-              <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[#6D8F1F]">
-                <IconSparkles size={12} aria-hidden="true" />
-                {difficultyLabel}
+
+              <span className="h-5 w-px bg-[#E8DED1]" aria-hidden="true" />
+
+              <div className="inline-flex items-center gap-2 font-medium text-[#6A8E2A]">
+                <IconLeaf size={16} aria-hidden="true" />
+                <span>{difficultyLabel}</span>
               </div>
             </div>
           </div>
 
-          <div className="absolute right-[-46px] top-1/2 flex -translate-y-1/2 items-center justify-end">
+          <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center justify-end">
             {recipe.mainImage ? (
-              <div className="rounded-full">
+              <div className="rounded-full shadow-[0_12px_28px_rgba(164,130,74,0.14)]">
                 <img
                   src={recipe.mainImage}
                   alt={recipe.title}
-                  className="h-[116px] w-[116px] rounded-full object-cover"
+                  className="h-[110px] w-[110px] rounded-full object-cover"
                 />
               </div>
             ) : (
-              <div className="h-[116px] w-[116px] rounded-full bg-[var(--app-color-secondary)] p-[2px] shadow-[0_10px_24px_rgba(164,130,74,0.18)]">
+              <div className="h-[110px] w-[110px] rounded-full bg-[var(--app-color-secondary)] p-[2px] shadow-[0_10px_24px_rgba(164,130,74,0.18)]">
                 <div className="h-full w-full rounded-full bg-[#F5EFE4]" />
               </div>
             )}

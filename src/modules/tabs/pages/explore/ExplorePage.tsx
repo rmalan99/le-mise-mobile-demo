@@ -1,13 +1,14 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   IonContent,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonPage,
 } from "@ionic/react";
-import { IconBell } from "@tabler/icons-react";
-import { useHistory } from "react-router-dom";
+import { IconAdjustmentsHorizontal, IconBell } from "@tabler/icons-react";
+import { useHistory, useLocation } from "react-router-dom";
 import { useFavoritesStore } from "@/store/favorites";
+import { getAvailableRecipeCategories } from "@/shared/config/recipeCategories";
 import Brand from "@/shared/components/brand";
 import { recipeMocks } from "@/shared/mocks/recipes";
 import RecipeList from "@/shared/components/recipes/RecipeList";
@@ -18,6 +19,7 @@ const PAGE_SIZE = 6;
 
 function ExplorePage() {
   const history = useHistory();
+  const location = useLocation();
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -25,26 +27,37 @@ function ExplorePage() {
   const { favoriteIds, toggleFavorite } = useFavoritesStore();
 
   const categories = useMemo(() => {
-    const uniqueCategories = new Set<string>();
-
-    recipeMocks.forEach((recipe) => {
-      recipe.categories.forEach((category) => uniqueCategories.add(category));
-    });
-
-    return ["all", ...Array.from(uniqueCategories).slice(0, 5)];
+    return ["all", ...getAvailableRecipeCategories()];
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const categoryFromQuery = params.get("category");
+
+    if (categoryFromQuery && categories.includes(categoryFromQuery)) {
+      setSelectedCategory(categoryFromQuery);
+      setVisibleCount(PAGE_SIZE);
+      return;
+    }
+
+    setSelectedCategory("all");
+    setVisibleCount(PAGE_SIZE);
+  }, [categories, location.search]);
 
   const filteredRecipes = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
     return recipeMocks.filter((recipe) => {
       const matchesCategory =
-        selectedCategory === "all" || recipe.categories.includes(selectedCategory);
+        selectedCategory === "all" ||
+        recipe.categories.includes(selectedCategory);
 
       const matchesQuery =
         normalizedQuery.length === 0 ||
         recipe.title.toLowerCase().includes(normalizedQuery) ||
-        recipe.categories.some((category) => category.toLowerCase().includes(normalizedQuery));
+        recipe.categories.some((category) =>
+          category.toLowerCase().includes(normalizedQuery),
+        );
 
       return matchesCategory && matchesQuery;
     });
@@ -60,7 +73,8 @@ function ExplorePage() {
 
   const handleFilterClick = () => {
     const currentIndex = categories.indexOf(selectedCategory);
-    const nextCategory = categories[(currentIndex + 1) % categories.length] ?? "all";
+    const nextCategory =
+      categories[(currentIndex + 1) % categories.length] ?? "all";
 
     setSelectedCategory(nextCategory);
     setVisibleCount(PAGE_SIZE);
@@ -79,34 +93,40 @@ function ExplorePage() {
 
   return (
     <IonPage>
-      <IonContent fullscreen className="bg-white">
-        <div className="min-h-full bg-white pb-8">
+      <IonContent
+        fullscreen
+        className="[--background:var(--app-color-surface-light)]"
+      >
+        <div className="min-h-full bg-[radial-gradient(circle_at_top,var(--app-color-card)_0%,var(--app-color-surface-light)_34%,var(--app-color-surface)_100%)] pb-8">
           <header className="px-6 pt-10 pb-4">
             <div className="flex items-start justify-between gap-4">
-              <Brand size="sm" aria-label="Le Mise" className="text-[var(--app-color-primary)]" />
-
+              <Brand
+                size={"sm"}
+                aria-label="Le Mise"
+                className="text-[var(--app-color-primary)]"
+              />
               <button
                 type="button"
                 aria-label="Notificaciones"
-                className="relative mt-0.5 flex h-11 w-11 items-center justify-center rounded-full bg-[#FFF7EA] text-[var(--app-color-primary)]"
+                className="relative mt-0.5 flex h-9 w-9 shrink-0 items-center shadow-sm justify-center rounded-full bg-white text-[var(--app-color-primary)]"
               >
                 <IconBell size={18} stroke={2} aria-hidden="true" />
                 <span
-                  className="absolute right-3 top-3 h-2 w-2 rounded-full bg-[var(--app-color-primary)]"
+                  className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[var(--app-color-primary)] "
                   aria-hidden="true"
                 />
               </button>
             </div>
 
-            <div className="mt-3">
+            <div className="mt-6">
               <RecipeSearchInput
                 value={query}
                 onChange={handleSearchChange}
-                onFilterClick={handleFilterClick}
+                placeholder="Buscar recetas, ingredientes..."
               />
             </div>
 
-            <div className="mt-4">
+            <div className="mt-5">
               <RecipeCategorySection
                 categories={categories}
                 selectedCategory={selectedCategory}
@@ -119,29 +139,22 @@ function ExplorePage() {
           </header>
 
           <section className="px-6">
-            <div className="mb-4 flex items-end justify-between gap-3">
-              <div>
-                <span className="text-lg font-semibold leading-none tracking-[-0.03em] text-[var(--app-color-text-primary)]">
-                  Explorar recetas
-                </span>
-              </div>
-
-              <span className="text-sm text-[var(--app-color-text-secondary)]">
-                {filteredRecipes.length} resultado{filteredRecipes.length === 1 ? "" : "s"}
-              </span>
-            </div>
-
             <RecipeList
               recipes={visibleRecipes}
               variant="highlight"
               onClearFilters={handleClearFilters}
               isFavorite={(recipeId) => favoriteIds.has(recipeId)}
               onToggleFavorite={toggleFavorite}
-              onOpenRecipe={(recipeId) => history.push(`/tabs/recipes/${recipeId}`)}
+              onOpenRecipe={(recipeId) =>
+                history.push(`/tabs/recipes/${recipeId}`)
+              }
             />
           </section>
 
-          <IonInfiniteScroll onIonInfinite={handleInfiniteScroll} disabled={!hasMoreRecipes}>
+          <IonInfiniteScroll
+            onIonInfinite={handleInfiniteScroll}
+            disabled={!hasMoreRecipes}
+          >
             <IonInfiniteScrollContent loadingText="Cargando más recetas..." />
           </IonInfiniteScroll>
         </div>

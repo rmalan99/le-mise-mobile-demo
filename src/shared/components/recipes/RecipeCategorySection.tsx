@@ -1,67 +1,8 @@
 import {
-  IconClock,
-  IconFilter,
-  IconLeaf,
-  IconMoon,
-  IconSunrise,
-  IconWheatOff,
-  type Icon,
-} from "@tabler/icons-react";
-
-const CATEGORY_STYLES: Record<
-  string,
-  {
-    Icon: Icon;
-    tileClassName: string;
-    iconClassName: string;
-  }
-> = {
-  all: {
-    Icon: IconFilter,
-    tileClassName: "bg-[#FFF3D6]",
-    iconClassName: "text-[#F2B21B]",
-  },
-  Desayunos: {
-    Icon: IconSunrise,
-    tileClassName: "bg-[#FFF3D6]",
-    iconClassName: "text-[#F2B21B]",
-  },
-  Almuerzos: {
-    Icon: IconMoon,
-    tileClassName: "bg-[#EAF8EC]",
-    iconClassName: "text-[#78C58B]",
-  },
-  Cenas: {
-    Icon: IconMoon,
-    tileClassName: "bg-[#FFE9E4]",
-    iconClassName: "text-[#FF7A63]",
-  },
-  Rápidas: {
-    Icon: IconClock,
-    tileClassName: "bg-[#FFE9E4]",
-    iconClassName: "text-[#FF7A63]",
-  },
-  Vegetariano: {
-    Icon: IconLeaf,
-    tileClassName: "bg-[#EAF8EC]",
-    iconClassName: "text-[#78C58B]",
-  },
-  "Sin gluten": {
-    Icon: IconWheatOff,
-    tileClassName: "bg-[#F2FBF3]",
-    iconClassName: "text-[#9FD7AE]",
-  },
-};
-
-const DEFAULT_STYLE = {
-  Icon: IconFilter,
-  tileClassName: "bg-[#FFF3D6]",
-  iconClassName: "text-[#F2B21B]",
-};
-
-const LABEL_OVERRIDES: Record<string, string> = {
-  all: "Todas",
-};
+  CATEGORY_LABEL_OVERRIDES,
+  CATEGORY_STYLES,
+  DEFAULT_CATEGORY_STYLE,
+} from "@/shared/config/recipeCategories";
 
 interface RecipeCategorySectionProps {
   categories: string[];
@@ -79,9 +20,9 @@ function RecipeCategorySection({
       <div className="flex gap-2.5 pr-2">
         {categories.map((category) => {
           const isSelected = selectedCategory === category;
-          const categoryStyle = CATEGORY_STYLES[category] ?? DEFAULT_STYLE;
+          const categoryStyle = CATEGORY_STYLES[category] ?? DEFAULT_CATEGORY_STYLE;
           const CategoryIcon = categoryStyle.Icon;
-          const label = LABEL_OVERRIDES[category] ?? category;
+          const label = CATEGORY_LABEL_OVERRIDES[category] ?? category;
 
           return (
             <button
@@ -116,5 +57,4 @@ function RecipeCategorySection({
   );
 }
 
-export { CATEGORY_STYLES };
 export default RecipeCategorySection;

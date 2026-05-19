@@ -2,23 +2,19 @@ import { useState, type TouchEvent } from "react";
 import { IonContent, IonPage } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import {
-  IconChevronRight,
   IconClock,
-  IconBowl,
-  IconCalendarPlus,
   IconBell,
   IconHeart,
   IconHeartFilled,
   IconSunrise,
   IconSoup,
   IconMoon,
-  IconCookie,
-  IconBolt,
   IconLeaf,
   IconWheatOff,
-  IconGlassFull,
 } from "@tabler/icons-react";
 import { useFavoritesStore } from "@/store/favorites";
+import { HOME_CATEGORY_LIMIT } from "@/shared/config/recipeCategories";
+import { useSessionStore } from "@/store/session";
 import Brand from "@/shared/components/brand";
 import { homeRecipeCards } from "@/shared/mocks/recipes";
 
@@ -55,54 +51,34 @@ const CATEGORIES = [
   },
   {
     id: "c4",
-    label: "Postres",
-    Icon: IconCookie,
-    tileClassName: "bg-[#FFF3D6]",
-    iconClassName: "text-[#F2B21B]",
-  },
-  {
-    id: "c5",
     label: "Rápidas",
-    Icon: IconBolt,
+    Icon: IconClock,
     tileClassName: "bg-[#FFE9E4]",
     iconClassName: "text-[#FF7A63]",
   },
   {
-    id: "c6",
-    label: "Saludables",
+    id: "c5",
+    label: "Vegetariano",
     Icon: IconLeaf,
     tileClassName: "bg-[#EAF8EC]",
     iconClassName: "text-[#78C58B]",
   },
   {
-    id: "c7",
+    id: "c6",
     label: "Sin gluten",
     Icon: IconWheatOff,
     tileClassName: "bg-[#F2FBF3]",
     iconClassName: "text-[#9FD7AE]",
-  },
-  {
-    id: "c8",
-    label: "Bebidas",
-    Icon: IconGlassFull,
-    tileClassName: "bg-[#FFF3D6]",
-    iconClassName: "text-[#F2B21B]",
-  },
-];
-
-const QUICK_LINKS = [
-  { id: "q1", label: "Qué cocinar hoy", Icon: IconBowl, href: "/tabs/explore" },
-  {
-    id: "q2",
-    label: "Crear agenda culinaria",
-    Icon: IconCalendarPlus,
-    href: "/tabs/explore",
   },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function GreetingSection() {
+  const firstName = useSessionStore((state) => state.userData?.firstName);
+  const hasHydrated = useSessionStore((state) => state.hasHydrated);
+  const greetingName = hasHydrated && firstName?.trim() ? firstName : GREETING.name;
+
   return (
     <div className="px-6 pt-10 pb-2">
       <div className="flex items-start justify-between gap-4">
@@ -121,7 +97,7 @@ function GreetingSection() {
       </div>
       <div className="flex items-start justify-between gap-4 mt-2" >
         <h1 className="app-font-display text-[28px] leading-none text-[var(--app-color-primary)]">
-          Buen día, {GREETING.name}
+          Buen día, {greetingName}
         </h1>
       </div>
 
@@ -303,12 +279,15 @@ function RecipeCarousel() {
 }
 
 function CategoriesSection() {
+  const history = useHistory();
+
   return (
     <div className="flex gap-3 overflow-x-auto px-6 pb-2">
-      {CATEGORIES.map(({ id, label, Icon, tileClassName, iconClassName }) => (
+      {CATEGORIES.slice(0, HOME_CATEGORY_LIMIT).map(({ id, label, Icon, tileClassName, iconClassName }) => (
         <button
           type="button"
           key={id}
+          onClick={() => history.push(`/tabs/explore?category=${encodeURIComponent(label)}`)}
           className="flex shrink-0 flex-col items-center gap-2"
           aria-label={label}
         >
@@ -331,49 +310,6 @@ function CategoriesSection() {
   );
 }
 
-function QuickAccessSection() {
-  const history = useHistory();
-
-  return (
-    <div className="px-6 mt-2 pb-8">
-      <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-lg font-bold text-[var(--app-color-text-primary)]">
-          Accesos rápidos
-        </h2>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        {QUICK_LINKS.map(({ id, label, Icon, href }) => (
-          <button
-            key={id}
-            type="button"
-            onClick={() => history.push(href)}
-            className="flex items-center gap-4 p-4 rounded-2xl bg-[var(--app-color-card)] shadow-sm active:scale-[0.98] transition-transform"
-          >
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[var(--app-color-surface)]">
-              <Icon
-                size={20}
-                stroke={1.8}
-                className="text-[var(--app-color-primary)]"
-                aria-hidden="true"
-              />
-            </div>
-            <span className="text-base font-semibold text-[var(--app-color-text-primary)]">
-              {label}
-            </span>
-            <IconChevronRight
-              size={18}
-              stroke={2}
-              className="ml-auto text-[var(--app-color-text-disabled)]"
-              aria-hidden="true"
-            />
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 function HomePage() {
@@ -390,9 +326,11 @@ function HomePage() {
               onCtaClick={() => history.push("/tabs/explore")}
             />
             <RecipeCarousel />
-            <SectionHeader title="Categorías" />
+            <SectionHeader
+              title="Categorías"
+              onCtaClick={() => history.push("/tabs/categories")}
+            />
             <CategoriesSection />
-            <QuickAccessSection />
           </div>
         </div>
       </IonContent>

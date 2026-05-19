@@ -1,6 +1,6 @@
 import { IonLabel, IonTabBar, IonTabButton } from '@ionic/react'
 import type { Icon as TablerIcon } from '@tabler/icons-react'
-import { IconCompass, IconHeart, IconHome2, IconUser } from '@tabler/icons-react'
+import { IconCalendarWeek, IconCompass, IconHeart, IconHome2, IconUser } from '@tabler/icons-react'
 
 type TabItem = {
   tab: string
@@ -13,7 +13,7 @@ const tabs: TabItem[] = [
   {
     tab: 'home',
     href: '/tabs/home',
-    label: 'Home',
+    label: 'Inicio',
     Icon: IconHome2,
   },
   {
@@ -27,6 +27,12 @@ const tabs: TabItem[] = [
     href: '/tabs/favorites',
     label: 'Favoritos',
     Icon: IconHeart,
+  },
+  {
+    tab: 'plan',
+    href: '/tabs/plan',
+    label: 'Plan',
+    Icon: IconCalendarWeek,
   },
   {
     tab: 'profile',
