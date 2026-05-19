@@ -2,7 +2,7 @@ import { Brand } from '@shared/components/brand'
 import { OnboardingTopAction } from './OnboardingTopAction'
 
 type Props = {
-  topActionLabel: 'Skip' | 'Login'
+  topActionLabel: 'Saltar' | 'Ingresar'
   onTopAction: () => void
 }
 

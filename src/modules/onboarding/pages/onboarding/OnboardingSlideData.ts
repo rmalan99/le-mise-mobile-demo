@@ -7,9 +7,9 @@ export type Slide = {
   title: string
   description: string
   illustration: string
-  topActionLabel: 'Skip' | 'Login'
+  topActionLabel: 'Saltar' | 'Ingresar'
   topActionTo: string
-  bottomActionLabel: 'Next' | 'Start'
+  bottomActionLabel: 'Siguiente' | 'Empezar'
   bottomActionTo: string
   bottomActionStyle: 'circle' | 'pill'
 }
@@ -20,9 +20,9 @@ export const SLIDES: Slide[] = [
     title: 'Descubre recetas fáciles',
     description: 'Encuentra recetas simples con ingredientes claros y pasos fáciles de seguir.',
     illustration: freshIngredients,
-    topActionLabel: 'Skip',
+    topActionLabel: 'Saltar',
     topActionTo: '/login',
-    bottomActionLabel: 'Next',
+    bottomActionLabel: 'Siguiente',
     bottomActionTo: '/onboarding',
     bottomActionStyle: 'circle',
   },
@@ -31,9 +31,9 @@ export const SLIDES: Slide[] = [
     title: 'Sigue pasos simples',
     description: 'Cada receta te guía paso a paso para que cocines con confianza y sin complicaciones.',
     illustration: guidedMealPlanning,
-    topActionLabel: 'Skip',
+    topActionLabel: 'Saltar',
     topActionTo: '/login',
-    bottomActionLabel: 'Next',
+    bottomActionLabel: 'Siguiente',
     bottomActionTo: '/onboarding',
     bottomActionStyle: 'circle',
   },
@@ -42,9 +42,9 @@ export const SLIDES: Slide[] = [
     title: 'Cocina rico y saludable',
     description: 'Te ayudamos a disfrutar de comidas deliciosas y nutritivas todos los días.',
     illustration: healthyMealServe,
-    topActionLabel: 'Login',
+    topActionLabel: 'Ingresar',
     topActionTo: '/login',
-    bottomActionLabel: 'Start',
+    bottomActionLabel: 'Empezar',
     bottomActionTo: '/register',
     bottomActionStyle: 'pill',
   },

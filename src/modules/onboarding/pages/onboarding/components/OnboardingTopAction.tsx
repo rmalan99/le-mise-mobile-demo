@@ -1,10 +1,10 @@
 type Props = {
-  label: 'Skip' | 'Login'
+  label: 'Saltar' | 'Ingresar'
   onClick: () => void
 }
 
 export function OnboardingTopAction({ label, onClick }: Props) {
-  const isSkip = label === 'Skip'
+  const isSkip = label === 'Saltar'
 
   return (
     <button
