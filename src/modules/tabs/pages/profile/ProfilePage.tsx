@@ -6,13 +6,33 @@ import {
   IconWorld,
   IconLogout,
 } from '@tabler/icons-react'
+import { useHistory } from 'react-router-dom'
+import { useSessionStore } from '@/store/session'
 
 const PROFILE_OPTIONS = [
-  { id: 'preferences', label: 'Preferences', Icon: IconSettings },
-  { id: 'language', label: 'Language', Icon: IconWorld },
+  { id: 'preferences', label: 'Preferencias', Icon: IconSettings },
+  { id: 'language', label: 'Idioma', Icon: IconWorld },
 ]
 
 function ProfilePage() {
+  const history = useHistory()
+  const userData = useSessionStore((state) => state.userData)
+
+  const fullName = [userData?.firstName, userData?.lastName].filter(Boolean).join(' ')
+  const profileName = fullName || 'Mi perfil'
+  const profileHandle = userData?.email ? `@${userData.email.split('@')[0]}` : '@lemise'
+
+  const handleOptionClick = (optionId: string) => {
+    if (optionId === 'preferences') {
+      history.push('/tabs/profile/preferences')
+      return
+    }
+
+    if (optionId === 'language') {
+      history.push('/tabs/profile/language')
+    }
+  }
+
   return (
     <IonPage>
       <IonContent fullscreen className="[--background:var(--app-color-surface)]">
@@ -25,7 +45,7 @@ function ProfilePage() {
               <div className="h-9 w-9 shrink-0" aria-hidden="true" />
 
               <h1 className="text-[26px] font-semibold tracking-[-0.03em] text-[var(--app-color-text-primary)]">
-                My Profile
+                Mi perfil
               </h1>
 
               <div className="h-9 w-9 shrink-0" aria-hidden="true" />
@@ -42,7 +62,7 @@ function ProfilePage() {
 
                 <button
                   type="button"
-                  aria-label="Change profile picture"
+                  aria-label="Cambiar foto de perfil"
                   className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white text-[var(--app-color-text-primary)] shadow-[0_8px_18px_rgba(164,130,74,0.14)]"
                 >
                   <IconPhoto size={14} stroke={2} aria-hidden="true" />
@@ -51,26 +71,27 @@ function ProfilePage() {
 
               <div className="min-w-0 flex-1 pt-1">
                 <h2 className="truncate text-[19px] font-semibold leading-tight tracking-[-0.03em] text-[var(--app-color-text-primary)]">
-                  Charlotte King
+                  {profileName}
                 </h2>
-                <p className="mt-1 text-[13px] font-medium text-[var(--app-color-text-secondary)]">@johnkinggraphics</p>
+                <p className="mt-1 text-[13px] font-medium text-[var(--app-color-text-secondary)]">{profileHandle}</p>
 
                 <button
                   type="button"
                   className="mt-4 inline-flex h-11 items-center justify-center rounded-[16px] bg-[var(--app-color-primary)] px-6 text-[16px] font-semibold text-white shadow-[0_14px_24px_rgba(255,107,107,0.28)]"
                 >
-                  Edit Profile
+                  Editar perfil
                 </button>
               </div>
               </div>
             </section>
 
-            <nav aria-label="Profile options" className="mt-6 rounded-[28px] bg-[var(--app-color-card)] px-5 shadow-[0_14px_36px_rgba(164,130,74,0.08)]">
+            <nav aria-label="Opciones de perfil" className="mt-6 rounded-[28px] bg-[var(--app-color-card)] px-5 shadow-[0_14px_36px_rgba(164,130,74,0.08)]">
               <ul className="divide-y divide-[#efefef]">
                 {PROFILE_OPTIONS.map(({ id, label, Icon }) => (
                   <li key={id}>
                     <button
                       type="button"
+                      onClick={() => handleOptionClick(id)}
                       className="flex w-full items-center gap-4 py-5 text-left"
                       aria-label={label}
                     >
@@ -95,12 +116,12 @@ function ProfilePage() {
             <button
               type="button"
               className="mt-4 flex w-full items-center gap-4 rounded-[24px] bg-[var(--app-color-card)] px-5 py-5 text-left shadow-[0_14px_36px_rgba(164,130,74,0.08)]"
-              aria-label="Log out"
+              aria-label="Cerrar sesión"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#FFF1F1] text-[var(--app-color-danger)]">
                 <IconLogout size={19} stroke={1.9} aria-hidden="true" />
               </span>
-              <span className="flex-1 text-[16px] font-medium text-[var(--app-color-text-primary)]">Log out</span>
+              <span className="flex-1 text-[16px] font-medium text-[var(--app-color-text-primary)]">Cerrar sesión</span>
               <IconChevronRight
                 size={18}
                 stroke={1.9}

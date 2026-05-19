@@ -4,17 +4,30 @@ import { createJSONStorage, persist, type StateStorage } from 'zustand/middlewar
 const SESSION_KEY = 'le-mise-session'
 const SESSION_STORE_VERSION = 1
 
+export type UserPreferenceKey = 'onDiet' | 'lactoseIntolerant' | 'glutenFree' | 'vegetarian'
+export type SupportedLanguage = 'es'
+
+export type UserPreferences = Record<UserPreferenceKey, boolean>
+
+export const DEFAULT_USER_PREFERENCES: UserPreferences = {
+  onDiet: false,
+  lactoseIntolerant: false,
+  glutenFree: false,
+  vegetarian: false,
+}
+
 export interface SessionUserData {
   firstName: string
   lastName: string
   email: string
   password: string
+  language: SupportedLanguage
+  preferences: UserPreferences
 }
 
 export interface Session {
   onboard: boolean
   userData: SessionUserData | null
-  preferences: Record<string, unknown> | null
 }
 
 interface SessionStore extends Session {
@@ -22,6 +35,8 @@ interface SessionStore extends Session {
   setHasHydrated: (hasHydrated: boolean) => void
   markOnboardingComplete: () => void
   registerUser: (userData: SessionUserData) => void
+  updateUserPreferences: (preferences: UserPreferences) => void
+  updateUserLanguage: (language: SupportedLanguage) => void
   clearSession: () => void
   validateLogin: (email: string, password: string) => boolean
 }
@@ -29,11 +44,25 @@ interface SessionStore extends Session {
 const DEFAULT_SESSION: Session = {
   onboard: false,
   userData: null,
-  preferences: null,
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
+}
+
+function normalizeUserPreferences(rawPreferences: unknown): UserPreferences {
+  const preferences = isRecord(rawPreferences) ? rawPreferences : {}
+
+  return {
+    onDiet: preferences.onDiet === true,
+    lactoseIntolerant: preferences.lactoseIntolerant === true,
+    glutenFree: preferences.glutenFree === true,
+    vegetarian: preferences.vegetarian === true,
+  }
+}
+
+function normalizeUserLanguage(rawLanguage: unknown): SupportedLanguage {
+  return rawLanguage === 'es' ? rawLanguage : 'es'
 }
 
 function normalizeSession(rawSession: unknown): Session {
@@ -41,20 +70,23 @@ function normalizeSession(rawSession: unknown): Session {
     return DEFAULT_SESSION
   }
 
+  const fallbackPreferences = normalizeUserPreferences(rawSession.preferences)
+
   const userData = isRecord(rawSession.userData)
     && typeof rawSession.userData.firstName === 'string'
-    && typeof rawSession.userData.lastName === 'string'
-    && typeof rawSession.userData.email === 'string'
-    && typeof rawSession.userData.password === 'string'
+      && typeof rawSession.userData.lastName === 'string'
+      && typeof rawSession.userData.email === 'string'
+      && typeof rawSession.userData.password === 'string'
     ? {
         firstName: rawSession.userData.firstName,
         lastName: rawSession.userData.lastName,
         email: rawSession.userData.email,
         password: rawSession.userData.password,
+        language: normalizeUserLanguage(rawSession.userData.language),
+        preferences: normalizeUserPreferences(rawSession.userData.preferences ?? fallbackPreferences),
       }
     : null
 
-  const preferences = isRecord(rawSession.preferences) ? rawSession.preferences : null
   const onboard = typeof rawSession.onboard === 'boolean'
     ? rawSession.onboard
     : rawSession.hasSeenOnboarding === true
@@ -62,7 +94,6 @@ function normalizeSession(rawSession: unknown): Session {
   return {
     onboard,
     userData,
-    preferences,
   }
 }
 
@@ -121,15 +152,37 @@ export const useSessionStore = create<SessionStore>()(
       registerUser: (userData) => {
         set((state) => ({
           onboard: true,
-          userData,
-          preferences: state.preferences ?? {},
+          userData: {
+            ...userData,
+            language: normalizeUserLanguage(userData.language ?? state.userData?.language),
+            preferences: normalizeUserPreferences(userData.preferences ?? state.userData?.preferences),
+          },
+        }))
+      },
+      updateUserPreferences: (preferences) => {
+        set((state) => ({
+          userData: state.userData === null
+            ? null
+            : {
+                ...state.userData,
+                preferences,
+              },
+        }))
+      },
+      updateUserLanguage: (language) => {
+        set((state) => ({
+          userData: state.userData === null
+            ? null
+            : {
+                ...state.userData,
+                language,
+              },
         }))
       },
       clearSession: () => {
         set((state) => ({
           onboard: state.onboard,
           userData: null,
-          preferences: null,
         }))
       },
       validateLogin: (email, password) => {
@@ -145,10 +198,9 @@ export const useSessionStore = create<SessionStore>()(
       name: SESSION_KEY,
       version: SESSION_STORE_VERSION,
       storage: createJSONStorage(() => sessionStorage),
-      partialize: ({ onboard, userData, preferences }) => ({
+      partialize: ({ onboard, userData }) => ({
         onboard,
         userData,
-        preferences,
       }),
       merge: (persistedState, currentState) => ({
         ...currentState,

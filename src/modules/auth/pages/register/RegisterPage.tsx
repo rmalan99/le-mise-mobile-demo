@@ -11,7 +11,7 @@ import {
   RhfTextField,
   RhfPasswordField,
 } from '@shared/components/forms'
-import { useSessionStore } from '@store/session'
+import { DEFAULT_USER_PREFERENCES, useSessionStore } from '@store/session'
 
 const TAGLINE = 'Tu próxima comida favorita empieza acá.'
 
@@ -24,7 +24,11 @@ function RegisterPage() {
   })
 
   const submitRegistration = (values: RegisterFormValues) => {
-    registerUser(values)
+    registerUser({
+      ...values,
+      language: 'es',
+      preferences: DEFAULT_USER_PREFERENCES,
+    })
     history.push('/tabs')
   }
 
