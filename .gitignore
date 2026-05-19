@@ -24,8 +24,8 @@ dist-ssr
 *.sw?
 
 # Agent skills
-.agents/
-skills-lock.json
+# .agents/
+# skills-lock.json
 
 # Environment files
 .env

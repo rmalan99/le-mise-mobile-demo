@@ -1,0 +1,33 @@
+{
+  "name": "project-sessions-panel",
+  "private": true,
+  "type": "module",
+  "main": "./dist/tui.js",
+  "types": "./dist/tui.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/tui.d.ts",
+      "import": "./dist/tui.js"
+    },
+    "./tui": {
+      "types": "./dist/tui.d.ts",
+      "import": "./dist/tui.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@opencode-ai/plugin": "1.14.50",
+    "@opentui/solid": "0.2.12",
+    "solid-js": "1.9.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "esbuild-plugin-solid": "^0.6.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.8.3"
+  }
+}
