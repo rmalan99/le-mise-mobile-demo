@@ -1,0 +1,16 @@
+{
+  "name": "le-mise-real-showcase",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "render:es": "node render-bilingual.mjs es",
+    "render:en": "node render-bilingual.mjs en",
+    "render:all": "node render-bilingual.mjs all"
+  },
+  "devDependencies": {
+    "hyperframes": "0.6.28",
+    "node-addon-api": "^8.5.0",
+    "node-gyp": "^11.2.0"
+  }
+}

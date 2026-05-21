@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Le Mise — Product Showcase (English)</title>
+  </head>
+  <body>
+    <div
+      id="le-mise-showcase"
+      data-composition-id="le-mise-showcase"
+      data-width="1080"
+      data-height="1920"
+      data-start="0"
+      data-duration="36"
+    >
+      <style>
+        *,
+        *::before,
+        *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          background: #fff6eb;
+          font-family: "Croissant One", Georgia, serif;
+        }
+
+        :root {
+          --coral: #e26060;
+          --green: #2dbe7f;
+          --gold: #ffc83d;
+          --aqua: #00b8c9;
+          --cream: #fff6eb;
+          --cream-alt: #f7fdf9;
+          --text: #1f2937;
+          --text-muted: #4b5563;
+        }
+
+        .scene {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+        }
+
+        #scene1  { z-index: 10; }
+        #scene2  { z-index: 9;  opacity: 0; }
+        #scene3  { z-index: 8;  opacity: 0; }
+        #scene4  { z-index: 7;  opacity: 0; }
+        #scene5  { z-index: 6;  opacity: 0; }
+        #scene6  { z-index: 5;  opacity: 0; }
+        #scene7  { z-index: 4;  opacity: 0; }
+        #scene8  { z-index: 3;  opacity: 0; }
+        #scene9  { z-index: 2;  opacity: 0; }
+        #scene10 { z-index: 1;  opacity: 0; }
+
+        #scene1, #scene2, #scene3, #scene4, #scene5,
+        #scene6, #scene7, #scene8, #scene9, #scene10 {
+          background: var(--cream);
+        }
+
+        .scene-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          padding: 120px 80px;
+          gap: 48px;
+          box-sizing: border-box;
+        }
+
+        .scene-split {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          padding: 120px 80px;
+          gap: 60px;
+          box-sizing: border-box;
+        }
+
+        .scene-center {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          padding: 160px 80px;
+          gap: 36px;
+          box-sizing: border-box;
+        }
+
+        .bg-glow-top {
+          position: absolute;
+          top: -200px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 1200px;
+          height: 600px;
+          border-radius: 50%;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(255, 107, 107, 0.12) 0%,
+            rgba(255, 107, 107, 0) 70%
+          );
+          pointer-events: none;
+        }
+
+        .bg-glow-top-strong {
+          position: absolute;
+          top: -300px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 1600px;
+          height: 800px;
+          border-radius: 50%;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(255, 107, 107, 0.18) 0%,
+            rgba(255, 107, 107, 0) 70%
+          );
+          pointer-events: none;
+        }
+
+        .bg-glow-bottom {
+          position: absolute;
+          bottom: -200px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 1400px;
+          height: 500px;
+          border-radius: 50%;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(45, 190, 127, 0.10) 0%,
+            rgba(45, 190, 127, 0) 70%
+          );
+          pointer-events: none;
+        }
+
+        .bg-glow-gold {
+          position: absolute;
+          top: 40%;
+          right: -300px;
+          width: 1000px;
+          height: 600px;
+          border-radius: 50%;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(255, 200, 61, 0.10) 0%,
+            rgba(255, 200, 61, 0) 70%
+          );
+          pointer-events: none;
+        }
+
+        .bg-glow-amber {
+          position: absolute;
+          bottom: -300px;
+          right: -200px;
+          width: 1200px;
+          height: 700px;
+          border-radius: 50%;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(255, 180, 50, 0.14) 0%,
+            rgba(255, 180, 50, 0) 70%
+          );
+          pointer-events: none;
+        }
+
+        .ghost-text {
+          position: absolute;
+          font-family: "Croissant One", Georgia, serif;
+          font-size: 280px;
+          font-weight: 400;
+          color: rgba(255, 107, 107, 0.04);
+          white-space: nowrap;
+          pointer-events: none;
+          letter-spacing: -0.03em;
+        }
+
+        .ghost-text-bottom {
+          position: absolute;
+          bottom: 60px;
+          right: -40px;
+          font-family: "Croissant One", Georgia, serif;
+          font-size: 200px;
+          font-weight: 400;
+          color: rgba(45, 190, 127, 0.04);
+          white-space: nowrap;
+          pointer-events: none;
+        }
+
+        .ghost-text-amber {
+          position: absolute;
+          font-family: "Croissant One", Georgia, serif;
+          font-size: 200px;
+          font-weight: 400;
+          color: rgba(255, 180, 50, 0.045);
+          white-space: nowrap;
+          pointer-events: none;
+        }
+
+        .rule-top {
+          position: absolute;
+          top: 100px;
+          left: 80px;
+          right: 80px;
+          height: 2px;
+          background: rgba(255, 107, 107, 0.18);
+          transform-origin: left center;
+        }
+
+        .rule-bottom {
+          position: absolute;
+          bottom: 100px;
+          left: 80px;
+          right: 80px;
+          height: 2px;
+          background: rgba(45, 190, 127, 0.18);
+          transform-origin: left center;
+        }
+
+        .rule-center-h {
+          position: absolute;
+          left: 80px;
+          right: 80px;
+          height: 2px;
+          background: rgba(255, 107, 107, 0.15);
+          transform-origin: left center;
+        }
+
+        /* ─── Logo Opening ─── */
+        .app-logo {
+          width: 300px;
+          height: 300px;
+          display: block;
+          filter: drop-shadow(0 8px 48px rgba(255, 107, 107, 0.20));
+        }
+
+        .logo-headline {
+          font-family: "Croissant One", Georgia, serif;
+          font-size: 120px;
+          font-weight: 400;
+          line-height: 1;
+          letter-spacing: -0.02em;
+          color: var(--coral);
+          text-align: center;
+        }
+
+        .logo-subtle {
+          font-family: "Work Sans", sans-serif;
+          font-size: 36px;
+          font-weight: 300;
+          color: var(--text-muted);
+          text-align: center;
+          letter-spacing: -0.01em;
+        }
+
+        /* ─── Phone frame ─── */
+        .phone-frame {
+          position: relative;
+          width: 390px;
+          height: 844px;
+          border-radius: 48px;
+          background: #1a1a1a;
+          padding: 12px;
+          box-shadow:
+            0 20px 60px rgba(31, 41, 55, 0.20),
+            0 8px 24px rgba(31, 41, 55, 0.12);
+        }
+
+        .phone-screen {
+          width: 100%;
+          height: 100%;
+          border-radius: 38px;
+          overflow: hidden;
+          background: var(--cream);
+        }
+
+        .phone-screen img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .phone-notch {
+          position: absolute;
+          top: 12px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 120px;
+          height: 28px;
+          background: #1a1a1a;
+          border-radius: 0 0 20px 20px;
+          z-index: 2;
+        }
+
+        /* ─── Hero phone (larger) ─── */
+        .phone-frame-hero {
+          position: relative;
+          width: 440px;
+          height: 952px;
+          border-radius: 52px;
+          background: #1a1a1a;
+          padding: 14px;
+          box-shadow:
+            0 28px 80px rgba(31, 41, 55, 0.24),
+            0 10px 32px rgba(31, 41, 55, 0.14),
+            0 0 0 4px rgba(255, 107, 107, 0.12);
+        }
+
+        .phone-frame-hero .phone-screen {
+          border-radius: 42px;
+        }
+
+        .phone-frame-hero .phone-notch {
+          top: 14px;
+          width: 130px;
+          height: 30px;
+          border-radius: 0 0 22px 22px;
+        }
+
+        /* ─── Typography ─── */
+        .headline {
+          font-family: "Croissant One", Georgia, serif;
+          font-size: 72px;
+          font-weight: 400;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
+          color: var(--text);
+          text-align: center;
+        }
+
+        .headline-accent {
+          color: var(--coral);
+        }
+
+        .headline-small {
+          font-family: "Croissant One", Georgia, serif;
+          font-size: 56px;
+          font-weight: 400;
+          line-height: 1.15;
+          letter-spacing: -0.02em;
+          color: var(--text);
+          text-align: center;
+        }
+
+        .headline-hero {
+          font-family: "Croissant One", Georgia, serif;
+          font-size: 90px;
+          font-weight: 400;
+          line-height: 1.08;
+          letter-spacing: -0.03em;
+          color: var(--text);
+          text-align: center;
+        }
+
+        .subtitle {
+          font-family: "Work Sans", sans-serif;
+          font-size: 30px;
+          font-weight: 400;
+          line-height: 1.4;
+          color: var(--text-muted);
+          text-align: center;
+          max-width: 700px;
+        }
+
+        .eyebrow {
+          font-family: "Work Sans", sans-serif;
+          font-size: 22px;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          color: var(--text-muted);
+          text-align: center;
+        }
+
+        .feature-pill {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 16px 36px;
+          border-radius: 60px;
+          background: rgba(255, 255, 255, 0.85);
+          border: 2px solid rgba(255, 107, 107, 0.18);
+          font-family: "Work Sans", sans-serif;
+          font-size: 26px;
+          font-weight: 500;
+          color: var(--text);
+        }
+
+        .feature-pill .dot {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: var(--coral);
+          flex-shrink: 0;
+        }
+
+        .feature-row {
+          display: flex;
+          gap: 24px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .stat-callout {
+          text-align: center;
+        }
+
+        .stat-value {
+          font-family: "Croissant One", Georgia, serif;
+          font-size: 80px;
+          font-weight: 400;
+          line-height: 1;
+          color: var(--coral);
+          font-variant-numeric: tabular-nums;
+        }
+
+        .stat-label {
+          font-family: "Work Sans", sans-serif;
+          font-size: 26px;
+          font-weight: 400;
+          color: var(--text-muted);
+          margin-top: 8px;
+        }
+
+        .stat-callout-hero .stat-value {
+          font-size: 100px;
+        }
+        .stat-callout-hero .stat-label {
+          font-size: 30px;
+          font-weight: 500;
+          color: var(--text);
+        }
+
+        .two-phones {
+          display: flex;
+          gap: 40px;
+          justify-content: center;
+        }
+
+        .two-phones .phone-frame {
+          width: 330px;
+          height: 714px;
+          border-radius: 44px;
+          padding: 10px;
+        }
+
+        .two-phones .phone-screen {
+          border-radius: 36px;
+        }
+
+        .two-phones .phone-notch {
+          top: 10px;
+          width: 100px;
+          height: 24px;
+          border-radius: 0 0 18px 18px;
+        }
+
+        /* ─── Step indicators ─── */
+        .step-dots {
+          display: flex;
+          gap: 16px;
+          justify-content: center;
+        }
+        .step-dot {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: rgba(255, 107, 107, 0.20);
+          transition: none;
+        }
+        .step-dot.active {
+          background: var(--coral);
+          box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.18);
+        }
+
+        /* ─── Cooking multi-capture ─── */
+        .cooking-phones {
+          display: flex;
+          gap: 30px;
+          justify-content: center;
+          width: 100%;
+        }
+
+        .phone-frame-cooking {
+          position: relative;
+          width: 265px;
+          height: 574px;
+          border-radius: 38px;
+          background: #1a1a1a;
+          padding: 8px;
+          box-shadow:
+            0 14px 44px rgba(31, 41, 55, 0.18),
+            0 4px 16px rgba(31, 41, 55, 0.10);
+          flex-shrink: 0;
+        }
+
+        .phone-frame-cooking .phone-screen {
+          width: 100%;
+          height: 100%;
+          border-radius: 32px;
+          overflow: hidden;
+          background: var(--cream);
+        }
+
+        .phone-frame-cooking .phone-screen img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .phone-frame-cooking .phone-notch {
+          position: absolute;
+          top: 8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80px;
+          height: 20px;
+          background: #1a1a1a;
+          border-radius: 0 0 14px 14px;
+          z-index: 2;
+        }
+
+        .phone-label {
+          font-family: "Work Sans", sans-serif;
+          font-size: 22px;
+          font-weight: 500;
+          color: var(--text-muted);
+          text-align: center;
+          margin-top: 12px;
+        }
+
+        /* ─── Closing ─── */
+        .cta-frame {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 28px;
+        }
+
+        .closing-logo {
+          font-family: "Croissant One", Georgia, serif;
+          font-size: 140px;
+          font-weight: 400;
+          line-height: 1;
+          color: var(--coral);
+          letter-spacing: -0.02em;
+        }
+
+        .closing-tagline {
+          font-family: "Work Sans", sans-serif;
+          font-size: 36px;
+          font-weight: 400;
+          color: var(--text-muted);
+          text-align: center;
+        }
+      </style>
+
+      <!-- ─── SCENE 1: Splash / Logo Opening ─── -->
+      <div id="scene1" class="scene">
+        <div class="bg-glow-top-strong" data-layout-ignore></div>
+        <div class="rule-top" data-layout-ignore></div>
+        <div class="rule-bottom" data-layout-ignore></div>
+        <div class="scene-center">
+          <img class="app-logo" src="capture/app-icon.png" alt="Le Mise" />
+          <h1 class="logo-headline">Le Mise</h1>
+          <p class="logo-subtle">Your kitchen, made simpler</p>
+        </div>
+      </div>
+
+      <!-- ─── SCENE 2: Onboarding ─── -->
+      <div id="scene2" class="scene">
+        <div class="bg-glow-top" data-layout-ignore></div>
+        <div class="rule-top" data-layout-ignore></div>
+        <div class="scene-split">
+          <div class="copy-side" style="flex: 1">
+            <div class="eyebrow" style="text-align: left">Welcome</div>
+            <h2 class="headline-small" style="text-align: left; margin-top: 16px">
+              Your kitchen,<br />made simpler
+            </h2>
+            <p class="subtitle" style="text-align: left; max-width: 440px; margin-top: 20px">
+              Clear recipes, simple ingredients, and an experience designed to help you cook with confidence.
+            </p>
+          </div>
+          <div class="phone-frame" style="flex-shrink: 0">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <img src="capture/capture-real-onboarding.png" alt="Onboarding" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SCENE 3: Login ─── -->
+      <div id="scene3" class="scene">
+        <div class="bg-glow-gold" data-layout-ignore></div>
+        <div class="rule-bottom" data-layout-ignore></div>
+        <div class="scene-split" style="flex-direction: row-reverse">
+          <div class="copy-side" style="flex: 1">
+            <div class="eyebrow" style="text-align: left">Access</div>
+            <h2 class="headline-small" style="text-align: left; margin-top: 16px">
+              Step into<br />your kitchen
+            </h2>
+            <p class="subtitle" style="text-align: left; max-width: 440px; margin-top: 20px">
+              Sign up in seconds and start discovering recipes made for you.
+            </p>
+          </div>
+          <div class="phone-frame" style="flex-shrink: 0">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <img src="capture/capture-real-login.png" alt="Login" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SCENE 4: Home ─── -->
+      <div id="scene4" class="scene">
+        <div class="bg-glow-bottom" data-layout-ignore></div>
+        <div class="ghost-text-bottom" data-layout-ignore>HOME</div>
+        <div class="rule-top" data-layout-ignore></div>
+        <div class="scene-split">
+          <div class="copy-side" style="flex: 1">
+            <div class="eyebrow" style="text-align: left">Experience</div>
+            <h2 class="headline-small" style="text-align: left; margin-top: 16px">
+              What to cook<br />today, solved
+            </h2>
+            <p class="subtitle" style="text-align: left; max-width: 440px; margin-top: 20px">
+              Featured recipes, categories, and a carousel that inspires your next delicious meal every day.
+            </p>
+          </div>
+          <div class="phone-frame" style="flex-shrink: 0">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <img src="capture/capture-real-tabs-home.png" alt="Le Mise Home" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SCENE 5: Recipe Detail (HERO) ─── -->
+      <div id="scene5" class="scene">
+        <div class="bg-glow-top" data-layout-ignore></div>
+        <div class="ghost-text" style="top: 80px; left: -100px" data-layout-ignore>RECIPES</div>
+        <div class="rule-top" data-layout-ignore></div>
+        <div class="rule-center-h" style="top: 50%;" data-layout-ignore></div>
+        <div class="scene-split" style="flex-direction: row-reverse; gap: 50px">
+          <div class="copy-side" style="flex: 1">
+            <div class="eyebrow" style="text-align: left">Recipe</div>
+            <h2 class="headline-small" style="text-align: left; margin-top: 16px">
+              Ingredients,<br />steps & tips
+            </h2>
+            <p class="subtitle" style="text-align: left; max-width: 440px; margin-top: 20px">
+              Every recipe includes ingredients, utensils, detailed steps, and notes. No mystery, just cooking.
+            </p>
+            <div class="feature-row" style="justify-content: flex-start; margin-top: 24px">
+              <div class="stat-callout">
+                <div class="stat-value">4</div>
+                <div class="stat-label">recipes</div>
+              </div>
+              <div class="stat-callout">
+                <div class="stat-value">~12</div>
+                <div class="stat-label">steps each</div>
+              </div>
+              <div class="stat-callout">
+                <div class="stat-value">+5</div>
+                <div class="stat-label">ingredients</div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-frame" style="flex-shrink: 0">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <img src="capture/capture-real-tabs-recipes-recipe-arroz-con-huevo.png" alt="Recipe Detail" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SCENE 6: Cooking Mode (HERO STAR) ─── -->
+      <div id="scene6" class="scene">
+        <div class="bg-glow-amber" data-layout-ignore></div>
+        <div class="ghost-text-amber" style="top: 120px; right: -100px" data-layout-ignore>COOK</div>
+        <div class="rule-top" data-layout-ignore></div>
+        <div class="rule-bottom" data-layout-ignore></div>
+        <div class="scene-content" style="gap: 36px; padding: 100px 60px;">
+          <div style="width: 100%; text-align: center;">
+            <div class="eyebrow">Cooking Mode</div>
+            <h2 class="headline-hero" style="margin-top: 12px">
+              Step by step,<br /><span class="headline-accent">without missing a beat</span>
+            </h2>
+            <p class="subtitle" style="margin-top: 12px; max-width: 620px;">
+              Every instruction is clear, timed, and easy to follow. Move at your own pace.
+            </p>
+          </div>
+          <div class="cooking-phones">
+            <div>
+              <div class="phone-frame-cooking">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                  <img src="capture/capture-real-cooking-summary.png" alt="Summary" />
+                </div>
+              </div>
+              <div class="phone-label">Summary</div>
+            </div>
+            <div>
+              <div class="phone-frame-cooking">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                  <img src="capture/capture-real-cooking-step7.png" alt="Step by step" />
+                </div>
+              </div>
+              <div class="phone-label">Step by step</div>
+            </div>
+            <div>
+              <div class="phone-frame-cooking">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                  <img src="capture/capture-real-cooking-timer.png" alt="Timer" />
+                </div>
+              </div>
+              <div class="phone-label">Timer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SCENE 7: Explore + Categories ─── -->
+      <div id="scene7" class="scene">
+        <div class="bg-glow-gold" data-layout-ignore></div>
+        <div class="ghost-text-bottom" data-layout-ignore>EXPLORE</div>
+        <div class="rule-bottom" data-layout-ignore></div>
+        <div class="scene-content">
+          <div class="eyebrow">Discovery</div>
+          <h2 class="headline" style="margin-top: 12px">
+            Explore and find<br /><span class="headline-accent">your next recipe</span>
+          </h2>
+          <p class="subtitle" style="margin-top: 12px">
+            Browse by category, explore recipes, and save your favorites to keep them close at hand.
+          </p>
+          <div class="two-phones">
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-screen">
+                <img src="capture/capture-real-tabs-explore.png" alt="Explore" />
+              </div>
+            </div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-screen">
+                <img src="capture/capture-real-tabs-categories.png" alt="Categories" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SCENE 8: Plan + Favorites ─── -->
+      <div id="scene8" class="scene">
+        <div class="bg-glow-top" data-layout-ignore></div>
+        <div class="ghost-text" style="top: 100px; right: -80px" data-layout-ignore>PLAN</div>
+        <div class="rule-top" data-layout-ignore></div>
+        <div class="scene-content">
+          <div class="eyebrow">Planning</div>
+          <h2 class="headline" style="margin-top: 12px">
+            Plan your<br /><span class="headline-accent">week</span>
+          </h2>
+          <p class="subtitle" style="margin-top: 12px">
+            Build your weekly plan and save the dishes you love most. Everything in one place.
+          </p>
+          <div class="two-phones">
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-screen">
+                <img src="capture/capture-real-tabs-plan.png" alt="Plan" />
+              </div>
+            </div>
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-screen">
+                <img src="capture/capture-real-tabs-favorites.png" alt="Favorites" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SCENE 9: Profile ─── -->
+      <div id="scene9" class="scene">
+        <div class="bg-glow-bottom" data-layout-ignore></div>
+        <div class="rule-top" data-layout-ignore></div>
+        <div class="rule-bottom" data-layout-ignore></div>
+        <div class="scene-split" style="flex-direction: row-reverse">
+          <div class="copy-side" style="flex: 1">
+            <div class="eyebrow" style="text-align: left">Profile</div>
+            <h2 class="headline-small" style="text-align: left; margin-top: 16px">
+              Your space,<br />your taste
+            </h2>
+            <p class="subtitle" style="text-align: left; max-width: 440px; margin-top: 20px">
+              Personalize your experience, adjust preferences, and shape your kitchen your way.
+            </p>
+          </div>
+          <div class="phone-frame" style="flex-shrink: 0">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <img src="capture/capture-real-tabs-profile.png" alt="Profile" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SCENE 10: Closing ─── -->
+      <div id="scene10" class="scene">
+        <div class="bg-glow-top" style="top: -300px; width: 1600px; height: 700px" data-layout-ignore></div>
+        <div class="bg-glow-bottom" data-layout-ignore></div>
+        <div class="ghost-text" style="top: 300px; right: -160px; color: rgba(255, 107, 107, 0.03)" data-layout-ignore>LE MISE</div>
+        <div class="rule-top" data-layout-ignore></div>
+        <div class="rule-bottom" data-layout-ignore></div>
+        <div class="scene-content">
+          <div class="cta-frame">
+            <div class="closing-logo">Le Mise</div>
+            <p class="closing-tagline">Your kitchen, made simpler.</p>
+            <div class="feature-row">
+              <div class="feature-pill"><span class="dot"></span>Download the app</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        var tl = gsap.timeline({ paused: true });
+
+        // ── TIMING: Snappy 36s total, 10 scenes, ~0.3s transitions ──
+        // Scene durations: 2.5s per quick scene, 4-4.5s for hero scenes
+        var T1_IN  = 0.3;
+        var T1_OUT = 2.3;    // S1 Splash (2.0s visible)
+        var T2_IN  = 2.6;    // TX 0.3s
+        var T2_OUT = 5.0;    // S2 Onboarding (2.4s visible)
+        var T3_IN  = 5.3;    // TX 0.3s
+        var T3_OUT = 7.7;    // S3 Login (2.4s visible)
+        var T4_IN  = 8.0;    // TX 0.3s
+        var T4_OUT = 11.2;   // S4 Home (3.2s visible)
+        var T5_IN  = 11.5;   // TX 0.3s
+        var T5_OUT = 15.5;   // S5 Recipe Detail HERO (4.0s visible)
+        var T6_IN  = 15.8;   // TX 0.3s
+        var T6_OUT = 20.3;   // S6 Cooking Mode HERO STAR (4.5s visible)
+        var T7_IN  = 20.6;   // TX 0.3s
+        var T7_OUT = 24.0;   // S7 Explore+Categories (3.4s visible)
+        var T8_IN  = 24.3;   // TX 0.3s
+        var T8_OUT = 27.3;   // S8 Plan+Favorites (3.0s visible)
+        var T9_IN  = 27.6;   // TX 0.3s
+        var T9_OUT = 30.3;   // S9 Profile (2.7s visible)
+        var T10_IN = 30.6;   // TX 0.3s
+
+        // ═══════════════════════════════════════════════
+        // SCENE 1: Splash / Logo Opening
+        // ═══════════════════════════════════════════════
+        tl.from("#scene1 .app-logo", { scale: 0, opacity: 0, duration: 0.6, ease: "elastic.out(1, 0.6)" }, T1_IN);
+        tl.from("#scene1 .logo-headline", { y: 24, opacity: 0, duration: 0.4, ease: "expo.out" }, T1_IN + 0.4);
+        tl.from("#scene1 .logo-subtle", { y: 16, opacity: 0, duration: 0.35, ease: "power2.out" }, T1_IN + 0.65);
+        tl.to("#scene1 .bg-glow-top-strong", { scale: 1.12, duration: 2.0, ease: "sine.inOut" }, T1_IN);
+
+        // ── TRANSITION 1→2: Zoom through ──
+        tl.to("#scene1", { scale: 2.5, opacity: 0, filter: "blur(6px)", duration: 0.3, ease: "power3.in" }, T1_OUT);
+        tl.set("#scene1", { visibility: "hidden" }, T1_OUT + 0.35);
+        tl.fromTo("#scene2", { scale: 0.5, opacity: 0, filter: "blur(6px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.3, ease: "power3.out", overwrite: "auto" }, T1_OUT + 0.08);
+
+        // ═══════════════════════════════════════════════
+        // SCENE 2: Onboarding
+        // ═══════════════════════════════════════════════
+        tl.from("#scene2 .eyebrow", { y: 16, opacity: 0, duration: 0.3, ease: "power3.out" }, T2_IN);
+        tl.from("#scene2 .headline-small", { y: 36, opacity: 0, duration: 0.55, ease: "expo.out" }, T2_IN + 0.1);
+        tl.from("#scene2 .subtitle", { x: -24, opacity: 0, duration: 0.4, ease: "power2.out" }, T2_IN + 0.3);
+        tl.from("#scene2 .phone-frame", { x: 50, opacity: 0, scale: 0.9, duration: 0.6, ease: "power3.out" }, T2_IN + 0.25);
+        tl.to("#scene2 .bg-glow-top", { scale: 1.06, duration: 2.2, ease: "sine.inOut" }, T2_IN);
+
+        // ── TRANSITION 2→3: Blur through ──
+        tl.to("#scene2", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.3, ease: "power2.in" }, T2_OUT);
+        tl.set("#scene2", { visibility: "hidden" }, T2_OUT + 0.35);
+        tl.fromTo("#scene3", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.3, ease: "power2.out", overwrite: "auto" }, T2_OUT + 0.08);
+
+        // ═══════════════════════════════════════════════
+        // SCENE 3: Login
+        // ═══════════════════════════════════════════════
+        tl.from("#scene3 .eyebrow", { x: -16, opacity: 0, duration: 0.3, ease: "power3.out" }, T3_IN);
+        tl.from("#scene3 .headline-small", { y: 36, opacity: 0, duration: 0.55, ease: "expo.out" }, T3_IN + 0.1);
+        tl.from("#scene3 .subtitle", { y: 16, opacity: 0, duration: 0.4, ease: "power2.out" }, T3_IN + 0.3);
+        tl.from("#scene3 .phone-frame", { x: -50, opacity: 0, scale: 0.9, rotation: 2, duration: 0.6, ease: "power3.out" }, T3_IN + 0.25);
+        tl.to("#scene3 .bg-glow-gold", { scale: 1.05, duration: 2.2, ease: "sine.inOut" }, T3_IN);
+
+        // ── TRANSITION 3→4: Push slide left ──
+        tl.to("#scene3", { x: -80, opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power3.in" }, T3_OUT);
+        tl.set("#scene3", { visibility: "hidden" }, T3_OUT + 0.35);
+        tl.fromTo("#scene4", { x: 80, opacity: 0, filter: "blur(8px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.3, ease: "power3.out", overwrite: "auto" }, T3_OUT + 0.06);
+
+        // ═══════════════════════════════════════════════
+        // SCENE 4: Home
+        // ═══════════════════════════════════════════════
+        tl.from("#scene4 .eyebrow", { x: -16, opacity: 0, duration: 0.3, ease: "power3.out" }, T4_IN);
+        tl.from("#scene4 .headline-small", { y: 40, opacity: 0, duration: 0.55, ease: "expo.out" }, T4_IN + 0.12);
+        tl.from("#scene4 .subtitle", { y: 20, opacity: 0, duration: 0.4, ease: "power2.out" }, T4_IN + 0.35);
+        tl.from("#scene4 .phone-frame", { x: 60, opacity: 0, scale: 0.9, rotation: -2, duration: 0.6, ease: "power3.out" }, T4_IN + 0.3);
+        tl.to("#scene4 .bg-glow-bottom", { scale: 1.05, duration: 2.8, ease: "sine.inOut" }, T4_IN);
+
+        // ── TRANSITION 4→5: Push slide left ──
+        tl.to("#scene4", { x: -100, opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power3.in" }, T4_OUT);
+        tl.set("#scene4", { visibility: "hidden" }, T4_OUT + 0.35);
+        tl.fromTo("#scene5", { x: 100, opacity: 0, filter: "blur(10px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.3, ease: "power3.out", overwrite: "auto" }, T4_OUT + 0.06);
+
+        // ═══════════════════════════════════════════════
+        // SCENE 5: Recipe Detail (HERO)
+        // ═══════════════════════════════════════════════
+        tl.from("#scene5 .eyebrow", { x: -20, opacity: 0, duration: 0.3, ease: "power4.out" }, T5_IN);
+        tl.from("#scene5 .headline-small", { y: 45, opacity: 0, duration: 0.55, ease: "expo.out" }, T5_IN + 0.1);
+        tl.from("#scene5 .subtitle", { scale: 0.9, opacity: 0, duration: 0.45, ease: "power3.out" }, T5_IN + 0.3);
+        tl.from("#scene5 .phone-frame", { x: -50, opacity: 0, scale: 0.9, rotation: 2, duration: 0.6, ease: "power3.out" }, T5_IN + 0.25);
+        tl.from("#scene5 .stat-callout", { y: 20, opacity: 0, scale: 0.85, duration: 0.45, ease: "back.out(1.4)", stagger: 0.1 }, T5_IN + 0.55);
+        tl.from("#scene5 .rule-center-h", { scaleX: 0, duration: 0.45, ease: "power3.out" }, T5_IN + 0.15);
+        tl.to("#scene5 .bg-glow-top", { scale: 1.06, duration: 4.0, ease: "sine.inOut" }, T5_IN);
+        tl.to("#scene5 .ghost-text", { x: 12, duration: 3.5, ease: "sine.inOut" }, T5_IN);
+
+        // ── TRANSITION 5→6: Whip pan (hero reveal) ──
+        tl.to("#scene5", { x: -350, filter: "blur(20px)", opacity: 0, duration: 0.28, ease: "power3.in" }, T5_OUT);
+        tl.set("#scene5", { visibility: "hidden" }, T5_OUT + 0.32);
+        tl.fromTo("#scene6", { x: 350, filter: "blur(20px)", opacity: 0 }, { x: 0, filter: "blur(0px)", opacity: 1, duration: 0.28, ease: "power3.out", overwrite: "auto" }, T5_OUT + 0.04);
+
+        // ═══════════════════════════════════════════════
+        // SCENE 6: Cooking Mode (HERO STAR)
+        // ═══════════════════════════════════════════════
+        tl.from("#scene6 .eyebrow", { scale: 0.5, opacity: 0, duration: 0.35, ease: "back.out(1.8)" }, T6_IN);
+        tl.from("#scene6 .headline-hero", { y: 55, opacity: 0, duration: 0.65, ease: "power4.out" }, T6_IN + 0.12);
+        tl.from("#scene6 .subtitle", { x: -24, opacity: 0, duration: 0.4, ease: "power2.out" }, T6_IN + 0.45);
+        tl.from("#scene6 .phone-frame-cooking", { y: 60, opacity: 0, scale: 0.88, duration: 0.65, ease: "power3.out", stagger: 0.15 }, T6_IN + 0.3);
+        tl.from("#scene6 .phone-label", { y: 16, opacity: 0, duration: 0.35, ease: "power2.out", stagger: 0.15 }, T6_IN + 0.45);
+        tl.to("#scene6 .bg-glow-amber", { scale: 1.08, duration: 4.0, ease: "sine.inOut" }, T6_IN);
+        tl.to("#scene6 .ghost-text-amber", { x: -16, y: -12, duration: 4.0, ease: "sine.inOut" }, T6_IN);
+        tl.to("#scene6 .phone-frame-cooking", { y: 4, duration: 3.5, ease: "sine.inOut", stagger: 0.1 }, T6_IN + 0.8);
+
+        // ── TRANSITION 6→7: Blur crossfade ──
+        tl.to("#scene6", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.3, ease: "power2.in" }, T6_OUT);
+        tl.set("#scene6", { visibility: "hidden" }, T6_OUT + 0.35);
+        tl.fromTo("#scene7", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.3, ease: "power2.out", overwrite: "auto" }, T6_OUT + 0.08);
+
+        // ═══════════════════════════════════════════════
+        // SCENE 7: Explore + Categories
+        // ═══════════════════════════════════════════════
+        tl.from("#scene7 .eyebrow", { y: 16, opacity: 0, duration: 0.28, ease: "power3.out" }, T7_IN);
+        tl.from("#scene7 .headline", { scale: 0.85, opacity: 0, duration: 0.55, ease: "power4.out" }, T7_IN + 0.08);
+        tl.from("#scene7 .subtitle", { y: 16, opacity: 0, duration: 0.35, ease: "power2.out" }, T7_IN + 0.3);
+        tl.from("#scene7 .phone-frame", { y: 40, opacity: 0, scale: 0.88, duration: 0.6, ease: "power3.out", stagger: 0.16 }, T7_IN + 0.4);
+        tl.to("#scene7 .bg-glow-gold", { scale: 1.04, duration: 3.0, ease: "sine.inOut" }, T7_IN);
+
+        // ── TRANSITION 7→8: Push slide right ──
+        tl.to("#scene7", { x: 80, opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power3.in" }, T7_OUT);
+        tl.set("#scene7", { visibility: "hidden" }, T7_OUT + 0.35);
+        tl.fromTo("#scene8", { x: -80, opacity: 0, filter: "blur(8px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.3, ease: "power3.out", overwrite: "auto" }, T7_OUT + 0.06);
+
+        // ═══════════════════════════════════════════════
+        // SCENE 8: Plan + Favorites
+        // ═══════════════════════════════════════════════
+        tl.from("#scene8 .eyebrow", { y: 16, opacity: 0, duration: 0.28, ease: "power3.out" }, T8_IN);
+        tl.from("#scene8 .headline", { x: -24, opacity: 0, duration: 0.55, ease: "expo.out" }, T8_IN + 0.08);
+        tl.from("#scene8 .subtitle", { y: 16, opacity: 0, duration: 0.35, ease: "power2.out" }, T8_IN + 0.3);
+        tl.from("#scene8 .phone-frame", { y: 40, opacity: 0, scale: 0.88, duration: 0.6, ease: "power3.out", stagger: 0.16 }, T8_IN + 0.4);
+        tl.to("#scene8 .bg-glow-top", { scale: 1.04, duration: 2.5, ease: "sine.inOut" }, T8_IN);
+
+        // ── TRANSITION 8→9: Blur crossfade ──
+        tl.to("#scene8", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.3, ease: "power2.in" }, T8_OUT);
+        tl.set("#scene8", { visibility: "hidden" }, T8_OUT + 0.35);
+        tl.fromTo("#scene9", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.3, ease: "power2.out", overwrite: "auto" }, T8_OUT + 0.08);
+
+        // ═══════════════════════════════════════════════
+        // SCENE 9: Profile
+        // ═══════════════════════════════════════════════
+        tl.from("#scene9 .eyebrow", { y: 16, opacity: 0, duration: 0.28, ease: "power3.out" }, T9_IN);
+        tl.from("#scene9 .headline-small", { y: 36, opacity: 0, duration: 0.5, ease: "expo.out" }, T9_IN + 0.08);
+        tl.from("#scene9 .subtitle", { x: -16, opacity: 0, duration: 0.35, ease: "power2.out" }, T9_IN + 0.25);
+        tl.from("#scene9 .phone-frame", { x: 50, opacity: 0, scale: 0.9, rotation: -2, duration: 0.55, ease: "power3.out" }, T9_IN + 0.2);
+        tl.to("#scene9 .bg-glow-bottom", { scale: 1.04, duration: 2.2, ease: "sine.inOut" }, T9_IN);
+
+        // ── TRANSITION 9→10: Gentle blur crossfade (wind-down) ──
+        tl.to("#scene9", { opacity: 0, filter: "blur(16px)", duration: 0.45, ease: "power1.in" }, T9_OUT);
+        tl.set("#scene9", { visibility: "hidden" }, T9_OUT + 0.5);
+        tl.fromTo("#scene10", { opacity: 0, filter: "blur(16px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power1.out", overwrite: "auto" }, T9_OUT + 0.04);
+
+        // ═══════════════════════════════════════════════
+        // SCENE 10: Closing (final scene — exit allowed)
+        // ═══════════════════════════════════════════════
+        tl.from("#scene10 .closing-logo", { y: 36, opacity: 0, scale: 0.9, duration: 0.7, ease: "expo.out" }, T10_IN);
+        tl.from("#scene10 .closing-tagline", { y: 20, opacity: 0, duration: 0.45, ease: "power2.out" }, T10_IN + 0.35);
+        tl.from("#scene10 .feature-pill", { y: 24, opacity: 0, duration: 0.45, ease: "power3.out" }, T10_IN + 0.6);
+        tl.to("#scene10 .bg-glow-top", { scale: 1.08, duration: 3.0, ease: "sine.inOut" }, T10_IN);
+        tl.to("#scene10 .bg-glow-bottom", { scale: 1.06, duration: 3.0, ease: "sine.inOut" }, T10_IN);
+
+        // ── Final fade to black ──
+        tl.to("#scene10", { opacity: 0, duration: 0.5, ease: "power2.in" }, 35.5);
+        tl.set("#scene10", { visibility: "hidden" }, 36);
+
+        window.__timelines["le-mise-showcase"] = tl;
+      </script>
+    </div>
+  </body>
+</html>
