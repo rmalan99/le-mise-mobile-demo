@@ -15,8 +15,8 @@ function CategoriesPage() {
 
   return (
     <IonPage>
-      <IonContent fullscreen className="bg-white">
-        <div className="min-h-full bg-white px-6 pb-8 pt-10">
+      <IonContent fullscreen className="app-tabs-content">
+        <div className="app-tabs-surface px-6 pb-8 pt-10">
           <div className="flex items-start justify-between gap-4">
             <button
               type="button"

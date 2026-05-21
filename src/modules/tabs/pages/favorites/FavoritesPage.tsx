@@ -1,17 +1,16 @@
 import { useMemo, useState } from "react";
-import {
-  IonContent,
-  IonPage,
-} from "@ionic/react";
-import { IconBell } from "@tabler/icons-react";
+import { IonContent, IonPage } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { useFavoritesStore } from "@/store/favorites";
-import Brand from "@/shared/components/brand";
 import { recipeMocks } from "@/shared/mocks/recipes";
 import RecipeList from "@/shared/components/recipes/RecipeList";
 import RecipeSearchInput from "@/shared/components/recipes/RecipeSearchInput";
 import RecipeCategorySection from "@/shared/components/recipes/RecipeCategorySection";
-import { PageEmptyState, PageLoadingState } from "@/shared/components/page-state";
+import {
+  PageEmptyState,
+  PageLoadingState,
+} from "@/shared/components/page-state";
+import { AppHeader } from "@/shared/components/layout/Header";
 
 function FavoritesPage() {
   const history = useHistory();
@@ -36,12 +35,15 @@ function FavoritesPage() {
 
     return favoriteRecipes.filter((recipe) => {
       const matchesCategory =
-        selectedCategory === "all" || recipe.categories.includes(selectedCategory);
+        selectedCategory === "all" ||
+        recipe.categories.includes(selectedCategory);
 
       const matchesQuery =
         normalizedQuery.length === 0 ||
         recipe.title.toLowerCase().includes(normalizedQuery) ||
-        recipe.categories.some((category) => category.toLowerCase().includes(normalizedQuery));
+        recipe.categories.some((category) =>
+          category.toLowerCase().includes(normalizedQuery),
+        );
 
       return matchesCategory && matchesQuery;
     });
@@ -61,7 +63,7 @@ function FavoritesPage() {
   if (!hasHydrated) {
     return (
       <IonPage>
-        <IonContent>
+        <IonContent className="app-tabs-content">
           <PageLoadingState message="Cargando favoritos..." />
         </IonContent>
       </IonPage>
@@ -70,24 +72,10 @@ function FavoritesPage() {
 
   return (
     <IonPage>
-      <IonContent fullscreen className="bg-white">
-        <div className="min-h-full bg-white pb-8">
+      <IonContent fullscreen className="app-tabs-content">
+        <div className="app-tabs-surface pb-8">
           <header className="px-6 pt-10 pb-4">
-            <div className="flex items-start justify-between gap-4">
-              <Brand size="sm" aria-label="Le Mise" className="text-[var(--app-color-primary)]" />
-
-              <button
-                type="button"
-                aria-label="Notificaciones"
-                className="relative mt-0.5 flex h-11 w-11 items-center justify-center rounded-full bg-[#FFF7EA] text-[var(--app-color-primary)]"
-              >
-                <IconBell size={18} stroke={2} aria-hidden="true" />
-                <span
-                  className="absolute right-3 top-3 h-2 w-2 rounded-full bg-[var(--app-color-primary)]"
-                  aria-hidden="true"
-                />
-              </button>
-            </div>
+            <AppHeader />
 
             <div className="mt-3">
               <RecipeSearchInput
@@ -115,7 +103,8 @@ function FavoritesPage() {
               </div>
 
               <span className="text-sm text-[var(--app-color-text-secondary)]">
-                {favoriteRecipes.length} receta{favoriteRecipes.length === 1 ? "" : "s"}
+                {favoriteRecipes.length} receta
+                {favoriteRecipes.length === 1 ? "" : "s"}
               </span>
             </div>
 
@@ -128,7 +117,10 @@ function FavoritesPage() {
               <PageEmptyState
                 title="No encontramos recetas"
                 message="Probá con otro nombre o cambiá el filtro."
-                action={{ label: "Limpiar filtros", onClick: handleClearFilters }}
+                action={{
+                  label: "Limpiar filtros",
+                  onClick: handleClearFilters,
+                }}
               />
             ) : (
               <RecipeList
@@ -137,7 +129,9 @@ function FavoritesPage() {
                 isFavorite={isFavorite}
                 onToggleFavorite={toggleFavorite}
                 onClearFilters={handleClearFilters}
-                onOpenRecipe={(recipeId) => history.push(`/tabs/recipes/${recipeId}`)}
+                onOpenRecipe={(recipeId) =>
+                  history.push(`/tabs/recipes/${recipeId}`)
+                }
               />
             )}
           </section>

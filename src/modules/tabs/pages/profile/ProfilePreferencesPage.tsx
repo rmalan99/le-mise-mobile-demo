@@ -28,9 +28,9 @@ function ProfilePreferencesPage() {
 
   return (
     <IonPage>
-      <IonContent fullscreen className="[--background:var(--app-color-surface)]">
+      <IonContent fullscreen className="app-tabs-content">
         <div
-          className="min-h-full bg-[linear-gradient(180deg,var(--app-color-surface)_0%,var(--app-color-surface-alt)_100%)] px-6 pb-8"
+          className="app-tabs-surface px-6 pb-8"
           style={{ paddingTop: 'max(16px, env(safe-area-inset-top))' }}
         >
           <div className="mx-auto max-w-sm">

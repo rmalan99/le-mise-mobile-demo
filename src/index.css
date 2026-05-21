@@ -106,7 +106,7 @@ a {
   --app-color-info: #0ea5e9;
   --app-color-surface: #fff6eb;
   --app-color-surface-light: #fff8f1;
-  --app-color-surface-alt: #f7fdf9;
+  --app-color-surface-alt: #fafaf6;
   --app-color-card: #ffffff;
   --app-color-text-primary: #1f2937;
   --app-color-text-secondary: #4b5563;
@@ -259,6 +259,15 @@ ion-label,
 
 ion-content {
   --background: linear-gradient(180deg, var(--app-color-surface) 0%, var(--app-color-surface-alt) 100%);
+}
+
+.app-tabs-content {
+  --background: var(--app-color-surface-alt);
+}
+
+.app-tabs-surface {
+  min-height: 100%;
+  background: var(--app-color-surface-alt);
 }
 
 ion-toolbar {

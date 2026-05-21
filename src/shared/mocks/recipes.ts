@@ -1,3 +1,8 @@
+import arrozConHuevoImg from '@assets/recipes/arroz-con-huevo.webp'
+import sopaDeLentejasImg from '@assets/recipes/sopa-de-lentejas.webp'
+import jugoDeLimonImg from '@assets/recipes/jugo-de-limon.webp'
+import jugoVerdeImg from '@assets/recipes/jugo-verde.webp'
+
 export type RecipeDifficulty = "easy" | "medium" | "hard";
 
 export interface RecipeUtensil {
@@ -51,7 +56,7 @@ export const recipeMocks: Recipe[] = [
       "Una receta sencilla de arroz blanco con huevo revuelto, inspirada en una preparación casera dominicana.",
     promotionalDescription:
       "Económica, fácil de seguir y lista con ingredientes básicos.",
-    mainImage: "https://elfogoncito.net/wp-content/uploads/2013/06/dscf6904.jpg?w=756&h=510&crop=1",
+    mainImage: arrozConHuevoImg,
     categories: ["Almuerzos", "Rápidas", "Vegetariano"],
     servings: 4,
     prepTime: 10,
@@ -191,7 +196,7 @@ export const recipeMocks: Recipe[] = [
       "Una sopa de lentejas con verduras y sofrito suave, inspirada en la versión mediterránea compartida por Bon Viveur.",
     promotionalDescription:
       "Con verduras sencillas, buen caldo y pasos claros para cocinarla sin perder el hilo.",
-    mainImage: "https://imag.bonviveur.com/sopa-de-lentejas.jpg",
+    mainImage: sopaDeLentejasImg,
     categories: ["Sopas", "Plato principal", "Mediterránea", "Vegana"],
     servings: 4,
     prepTime: 15,
@@ -503,7 +508,7 @@ export const recipeMocks: Recipe[] = [
       "Una limonada dominicana sencilla y refrescante preparada con jugo de limón, agua, azúcar y hielo.",
     promotionalDescription:
       "Solo tres ingredientes principales y unos minutos para servir una bebida cítrica bien fría.",
-    mainImage: "https://www.cocinadominicana.com/wp-content/uploads/2026/05/jugo-de-limon-tia-clara-pin.jpg",
+    mainImage: jugoDeLimonImg,
     categories: ["Bebidas", "Jugos", "Dominicana", "Refrescante"],
     servings: 6,
     prepTime: 5,
@@ -652,7 +657,7 @@ export const recipeMocks: Recipe[] = [
       "Un jugo verde preparado con pepino, manzana verde, apio, piña, lima, espinacas y agua fría, inspirado en la receta de Bon Viveur.",
     promotionalDescription:
       "Una combinación de frutas y verduras verdes para una bebida fresca y lista en pocos minutos.",
-    mainImage: "https://imag.bonviveur.com/jugo-verde.jpg",
+    mainImage: jugoVerdeImg,
     categories: ["Bebidas", "Jugos", "Saludable", "Sin cocción"],
     servings: 4,
     prepTime: 15,

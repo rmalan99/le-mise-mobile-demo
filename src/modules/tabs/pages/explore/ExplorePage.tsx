@@ -5,15 +5,14 @@ import {
   IonInfiniteScrollContent,
   IonPage,
 } from "@ionic/react";
-import { IconAdjustmentsHorizontal, IconBell } from "@tabler/icons-react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useFavoritesStore } from "@/store/favorites";
 import { getAvailableRecipeCategories } from "@/shared/config/recipeCategories";
-import Brand from "@/shared/components/brand";
 import { recipeMocks } from "@/shared/mocks/recipes";
 import RecipeList from "@/shared/components/recipes/RecipeList";
 import RecipeSearchInput from "@/shared/components/recipes/RecipeSearchInput";
 import RecipeCategorySection from "@/shared/components/recipes/RecipeCategorySection";
+import { AppHeader } from "@/shared/components/layout/Header";
 
 const PAGE_SIZE = 6;
 
@@ -71,15 +70,6 @@ function ExplorePage() {
     setVisibleCount(PAGE_SIZE);
   };
 
-  const handleFilterClick = () => {
-    const currentIndex = categories.indexOf(selectedCategory);
-    const nextCategory =
-      categories[(currentIndex + 1) % categories.length] ?? "all";
-
-    setSelectedCategory(nextCategory);
-    setVisibleCount(PAGE_SIZE);
-  };
-
   const handleClearFilters = () => {
     setQuery("");
     setSelectedCategory("all");
@@ -93,31 +83,10 @@ function ExplorePage() {
 
   return (
     <IonPage>
-      <IonContent
-        fullscreen
-        className="[--background:var(--app-color-surface-light)]"
-      >
-        <div className="min-h-full bg-[radial-gradient(circle_at_top,var(--app-color-card)_0%,var(--app-color-surface-light)_34%,var(--app-color-surface)_100%)] pb-8">
+      <IonContent fullscreen className="app-tabs-content">
+        <div className="app-tabs-surface pb-8">
           <header className="px-6 pt-10 pb-4">
-            <div className="flex items-start justify-between gap-4">
-              <Brand
-                size={"sm"}
-                aria-label="Le Mise"
-                className="text-[var(--app-color-primary)]"
-              />
-              <button
-                type="button"
-                aria-label="Notificaciones"
-                className="relative mt-0.5 flex h-9 w-9 shrink-0 items-center shadow-sm justify-center rounded-full bg-white text-[var(--app-color-primary)]"
-              >
-                <IconBell size={18} stroke={2} aria-hidden="true" />
-                <span
-                  className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[var(--app-color-primary)] "
-                  aria-hidden="true"
-                />
-              </button>
-            </div>
-
+            <AppHeader />
             <div className="mt-6">
               <RecipeSearchInput
                 value={query}
@@ -142,7 +111,7 @@ function ExplorePage() {
             <RecipeList
               recipes={visibleRecipes}
               variant="highlight"
-              onClearFilters={handleClearFilters}
+             onClearFilters={handleClearFilters}
               isFavorite={(recipeId) => favoriteIds.has(recipeId)}
               onToggleFavorite={toggleFavorite}
               onOpenRecipe={(recipeId) =>

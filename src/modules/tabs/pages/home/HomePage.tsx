@@ -3,7 +3,6 @@ import { IonContent, IonPage } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import {
   IconClock,
-  IconBell,
   IconHeart,
   IconHeartFilled,
   IconSunrise,
@@ -15,8 +14,8 @@ import {
 import { useFavoritesStore } from "@/store/favorites";
 import { HOME_CATEGORY_LIMIT } from "@/shared/config/recipeCategories";
 import { useSessionStore } from "@/store/session";
-import Brand from "@/shared/components/brand";
 import { homeRecipeCards } from "@/shared/mocks/recipes";
+import { AppHeader } from "@/shared/components/layout/Header";
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -77,25 +76,14 @@ const CATEGORIES = [
 function GreetingSection() {
   const firstName = useSessionStore((state) => state.userData?.firstName);
   const hasHydrated = useSessionStore((state) => state.hasHydrated);
-  const greetingName = hasHydrated && firstName?.trim() ? firstName : GREETING.name;
+  const greetingName =
+    hasHydrated && firstName?.trim() ? firstName : GREETING.name;
 
   return (
     <div className="px-6 pt-10 pb-2">
-      <div className="flex items-start justify-between gap-4">
-        <Brand size={"sm"} aria-label="Le Mise" className="text-[var(--app-color-primary)]" />
-        <button
-          type="button"
-          aria-label="Notificaciones"
-          className="relative mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FFF7EA] text-[var(--app-color-primary)]"
-        >
-          <IconBell size={18} stroke={2} aria-hidden="true" />
-          <span
-            className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[var(--app-color-primary)] "
-            aria-hidden="true"
-          />
-        </button>
-      </div>
-      <div className="flex items-start justify-between gap-4 mt-2" >
+      <AppHeader />
+
+      <div className="flex items-start justify-between gap-4 mt-2">
         <h1 className="app-font-display text-[28px] leading-none text-[var(--app-color-primary)]">
           Buen día, {greetingName}
         </h1>
@@ -166,7 +154,11 @@ function RecipeCard({ recipe }: { recipe: (typeof RECIPES)[0] }) {
       <div className="relative overflow-hidden rounded-[18px]">
         <button
           type="button"
-          aria-label={isFavorite ? `Quitar ${recipe.title} de favoritos` : `Guardar ${recipe.title} en favoritos`}
+          aria-label={
+            isFavorite
+              ? `Quitar ${recipe.title} de favoritos`
+              : `Guardar ${recipe.title} en favoritos`
+          }
           onClick={handleFavoriteClick}
           className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-[#FF7A63] shadow-sm"
         >
@@ -283,29 +275,35 @@ function CategoriesSection() {
 
   return (
     <div className="flex gap-3 overflow-x-auto px-6 pb-2">
-      {CATEGORIES.slice(0, HOME_CATEGORY_LIMIT).map(({ id, label, Icon, tileClassName, iconClassName }) => (
-        <button
-          type="button"
-          key={id}
-          onClick={() => history.push(`/tabs/explore?category=${encodeURIComponent(label)}`)}
-          className="flex shrink-0 flex-col items-center gap-2"
-          aria-label={label}
-        >
-          <div
-            className={`flex h-16 w-16 items-center justify-center rounded-2xl border border-[#F0E4D2] shadow-[0_6px_18px_rgba(164,130,74,0.08)] ${tileClassName}`}
+      {CATEGORIES.slice(0, HOME_CATEGORY_LIMIT).map(
+        ({ id, label, Icon, tileClassName, iconClassName }) => (
+          <button
+            type="button"
+            key={id}
+            onClick={() =>
+              history.push(
+                `/tabs/explore?category=${encodeURIComponent(label)}`,
+              )
+            }
+            className="flex shrink-0 flex-col items-center gap-2"
+            aria-label={label}
           >
-            <Icon
-              size={24}
-              stroke={1.9}
-              className={iconClassName}
-              aria-hidden="true"
-            />
-          </div>
-          <span className="max-w-16 text-center text-[11px] font-medium leading-tight text-[var(--app-color-text-secondary)]">
-            {label}
-          </span>
-        </button>
-      ))}
+            <div
+              className={`flex h-16 w-16 items-center justify-center rounded-2xl border border-[#F0E4D2] shadow-[0_6px_18px_rgba(164,130,74,0.08)] ${tileClassName}`}
+            >
+              <Icon
+                size={24}
+                stroke={1.9}
+                className={iconClassName}
+                aria-hidden="true"
+              />
+            </div>
+            <span className="max-w-16 text-center text-[11px] font-medium leading-tight text-[var(--app-color-text-secondary)]">
+              {label}
+            </span>
+          </button>
+        ),
+      )}
     </div>
   );
 }
@@ -317,8 +315,8 @@ function HomePage() {
 
   return (
     <IonPage>
-      <IonContent scrollY style={{ "--background": "#FFFFFF" }}>
-        <div className="relative min-h-full overflow-hidden bg-white">
+      <IonContent scrollY className="app-tabs-content">
+        <div className="app-tabs-surface relative overflow-hidden">
           <div className="relative z-10">
             <GreetingSection />
             <SectionHeader
