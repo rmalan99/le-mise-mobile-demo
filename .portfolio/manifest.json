@@ -19,6 +19,9 @@
     "React Router",
     "Tabler Icons"
   ],
+  "links": {
+    "github": "https://github.com/rmalan99/le-mise-mobile-demo"
+  },
   "media": {
     "kind": "video",
     "src": "hyperframes/le-mise-real-showcase/renders/le-mise-real-showcase.en.mp4",
@@ -26,6 +29,8 @@
       "es": "hyperframes/le-mise-real-showcase/renders/le-mise-real-showcase.es.mp4",
       "en": "hyperframes/le-mise-real-showcase/renders/le-mise-real-showcase.en.mp4"
     },
+    "posterBackground": "public/app-icon.svg",
+    "posterSize": "1080x1080",
     "title": {
       "es": "Le Mise — showcase real del producto",
       "en": "Le Mise — real product showcase"
