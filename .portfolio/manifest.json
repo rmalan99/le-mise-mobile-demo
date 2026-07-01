@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "title": "Le Mise",
+  "type": "mobile",
+  "category": "product/myself",
+  "description": {
+    "es": "App móvil de recetas que ayuda a decidir qué cocinar más rápido, con descubrimiento guiado, lectura estructurada y un modo de cocina integrado.",
+    "en": "Mobile-first recipe app that helps people decide what to cook faster through guided discovery, structured reading, and an integrated cooking mode."
+  },
+  "technologies": [
+    "React 19",
+    "Ionic Framework",
+    "TypeScript",
+    "Vite",
+    "Tailwind CSS",
+    "Zustand",
+    "React Hook Form",
+    "Zod",
+    "React Router",
+    "Tabler Icons"
+  ],
+  "media": {
+    "kind": "video",
+    "src": "hyperframes/le-mise-real-showcase/renders/le-mise-real-showcase.en.mp4",
+    "sources": {
+      "es": "hyperframes/le-mise-real-showcase/renders/le-mise-real-showcase.es.mp4",
+      "en": "hyperframes/le-mise-real-showcase/renders/le-mise-real-showcase.en.mp4"
+    },
+    "title": {
+      "es": "Le Mise — showcase real del producto",
+      "en": "Le Mise — real product showcase"
+    }
+  }
+}
